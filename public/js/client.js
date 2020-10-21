@@ -32,7 +32,7 @@ function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut
 	//on supprime les class
 	$('#general').removeClass('selected');
 	$('#general').addClass('autres');
-	console.log(id); //on récupère l'id du user
+	//console.log(id); //on récupère l'id du user
 	$('.selected').addClass('autres');
 	$('.selected').removeClass('selected');
 	$('#'+id).removeClass('autres');
@@ -44,6 +44,8 @@ function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut
 };
 
 socket.on('new user', userList => { //à chaque nouvel utilisateur on reconstruit la liste des users
+	let dernierUser = userList[userList.length - 1].user;
+	$('#messages').append('<div>'+ dernierUser + ' est entré(e) dans le salon''</div>');
 	$('#membres').empty(); //on la vide
 	$('#membres').append('<div id="general" class="selected" onclick="generalClick(this.id);">Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	
@@ -55,7 +57,7 @@ socket.on('new user', userList => { //à chaque nouvel utilisateur on reconstrui
 
 function login(e){ //login du user, on envoit son nom au serveur
 	$('#user').text(e);
-	console.log('hello ' + e);
+	//console.log('hello ' + e);
 	socket.emit('user', e);
 };
 
@@ -201,11 +203,8 @@ $(document).ready(function(){ //fonction pour écouter si le user tape un messag
 
 function boucle(){ //renvoit si oui ou non une touche a été pressée
 	socket.emit('typing', typing);
-	if(typing == false){
-		console.log('pas tapée');
-	}
-	else{
-		console.log('tapée');
+	if(typing == true){
+		//console.log('tapée');
 		typing = false;
 	}
 	setTimeout("boucle();", 2000); //à réduire si on veut plus de responsivité
@@ -235,7 +234,7 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 	
 	if(!$('#general').hasClass('selected')){ //si on n'est pas dans le chat général
 		$('#messages').empty();
-		console.log('pas dans le général');
+		//console.log('pas dans le général');
 		let date = new Date();
 		let heure = date.getHours(); //récupérer heure
 		let minutes = date.getMinutes(); //récupérer minutes
