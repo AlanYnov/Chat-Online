@@ -1,0 +1,274 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font: 15px Helvetica, Arial;
+  background: grey;
+  margin: 0;
+  padding: 0;
+}
+
+#global {
+  display: none;
+  flex-flow: row nowrap;
+}
+
+#formEnvoyer {
+  background: #aabbbb;
+  padding: 5px 10px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 85%;
+  text-align: center;
+  border-radius: 30px 30px 0 0;
+  border-top: solid 1px black;
+  box-shadow: -2px -2px 10px grey;
+}
+
+#formEnvoyer input {
+  border: 0;
+  padding: 10px;
+  margin: 0 5px 0 0;
+  width: 80%;
+  border-radius: 0 5px;
+}
+
+#formEnvoyer button {
+  width: 8%;
+  background: rgb(130, 224, 255);
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 5px 0;
+}
+
+#formEnvoyer button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+#messages {
+  padding: 50px;
+  width: 85%;
+  background: #fefee2;
+  min-height: 100vh;
+  border-radius: 50px 0 0 0;
+  box-shadow: -2px -2px 15px black;
+}
+
+.messageDetailLeft {
+  background: #bfdbd5;
+}
+
+.messageDetailRight {
+  background: #dabfdb;
+}
+
+.messageLeft {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+}
+
+.messageRight {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: end;
+}
+
+.userLeft {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+}
+
+.userRight {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: end;
+}
+
+.containMessage {
+  width: 100%;
+  padding: 0 0 20px 0;
+}
+
+.messageDetail {
+  border: solid 2px grey;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.user {
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.heure {
+  font-size: 0.8em;
+  padding: 0 0 0 2px;
+  display: flex;
+  align-items: end;
+  min-width: 100px;
+}
+
+#conversation {
+  width: 15%;
+  background: grey;
+  min-height: 100vh;
+  padding: 25px 35px;
+}
+
+#membres div {
+  height: 35px;
+  border: solid 1px black;
+  margin: 10px 0;
+  padding: 0 0 0 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 10px white;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+#membres div:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+#imageUser {
+  position: relative;
+  left: 10%;
+  width: 80%;
+  height: 18%;
+  border: solid 2px black;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#imageUser img{
+	position: relative;
+	width: 100%;
+}
+
+#user {
+  padding: 15px 0 10px 0;
+  text-align: center;
+}
+
+#mainCtn {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin-left: 33%;
+  margin-right: 33%;
+  margin-top: 5%;
+}
+
+.selected{
+	background: #ac95da;
+}
+
+.autres{
+	background: #fff;
+}
+
+.missed{
+	background: #ea565d;
+}
+
+.deco{
+	background: #ccc;
+}
+
+#taper{
+	position: absolute;
+	top: -25px;
+	left: 6.3%;
+}
+
+.none{
+	display: none;
+}
+
+.notif{
+	position: absolute;
+	width: 20px;
+	left: 10%;
+}
+
+/*** Head ***/
+
+#headCtn {
+  width: 100%;
+  background-color:#bababa;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+#headCtn > h1 {
+  text-align: center;
+}
+
+#headCtn > h1 > i {
+  margin-right: 1rem;
+}
+
+/*** Input ***/
+
+#formCtn {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.5rem;
+  background-color: #CECECE;
+}
+
+.inputCtn {
+  width: 50%;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.inputCtn > label {
+  text-align: left;
+  color: grey;
+  font-size: 1.2vw;
+  margin-bottom: 0.25rem;
+}
+
+.inputCtn > #username,
+.btn {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border: 1px solid grey;
+}
+
+.inputCtn > #username {
+  width: 100%;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  font-size: 1vw;
+}
+
+.btn {
+  width: 30%;
+  background-color: rgb(197, 195, 195);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  font-size: 1vw;
+}
+
+.btn:hover {
+  background-color: rgb(221, 221, 221);
+  transition: all 0.25s ease-in-out;
+}

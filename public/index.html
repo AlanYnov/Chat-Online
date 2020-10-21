@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Socket.IO chat</title>
+		<link rel="stylesheet" href="/css/style.css" />
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	</head>
+	
+	<body>
+		<div id="mainCtn">
+            <header id="headCtn">
+                <h1 class="titleOne">
+                    <i class="fas fa-envelope-open-text"></i>Notre Chat
+                </h1>
+            </header>
+            <div id="formCtn">
+				<div class="inputCtn">
+					<label for="username">Nom d'utilisateur</label>
+					<input type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
+				</div>
+				<input type="button" value="Entrer dans le salon" class="btn" onclick="login(document.getElementById('username').value)"/>
+            </div>
+        </div>
+		
+		<div id="global">
+			<div id="conversation">
+				<div id="imageUser"><img src="img/man.png" alt="image man"/></div>
+				<div id="user"></div>
+				<div id="membres"></div>
+			</div>
+		
+			<div id="messages"></div>
+			<form action="" id="formEnvoyer">
+				<div id="taper" class=""></div>
+				<input id="m" autocomplete="off" /><button>Envoyer</button>
+			</form>
+		</div>
+		<input type="hidden" value="" id="userHidden"/>
+		<input type="hidden" value="" id="idHidden"/>
+		
+	<script src="js/client.js"></script>
+	</body>
+</html>
