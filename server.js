@@ -11,6 +11,7 @@ app.use(express.static('public')); //on utilise le dossier public
 const userList = [];
 const msgEnvoiGeneral = [];
 const msgEnvoiPrivate = [];
+const returnGeneral = [];
 
 io.on('connection', function(socket){ //nouvelle connexion
 	console.log('Nouvelle connexion');
@@ -26,18 +27,31 @@ io.on('connection', function(socket){ //nouvelle connexion
 				if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
 					msgEnvoiGeneral.shift();
 				}
-				io.emit('chat message', msgEnvoi);
+				io.emit('chat message', msgEnvoi, msgEnvoiGeneral);
 			}
 		}
 		//console.log(msgEnvoiGeneral);
 	});
   
 	socket.on('user', (user) => { //ajout d'un nouvelle utilisateur
+		let connexion = '';
 		if(!userList.find(user => user.id === socket.id)){
 			userList.push({id:socket.id,user:user});
-			io.emit('new user', userList);
-			console.log(userList);
-		};
+			for(let i = 0; i < userList.length; i++){
+				if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
+					userName = userList[i].user;
+					connexion = {id:'serveur',message:'est entré(e) dans le salon',expediteur:userName,connected:socket.id};
+					msgEnvoiGeneral.push(connexion); //renvoit en Json les infos du message
+					if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
+						msgEnvoiGeneral.shift();
+					}
+					//io.emit('is connected', connexion);
+				}
+			}
+		}
+		console.log(userList);
+		io.emit('new user', userList);
+		io.emit('co affiche', connexion);
 	});
   
 	socket.on('private message', function(message,idPrivate) { //pour envoyer un message privé
@@ -75,20 +89,30 @@ io.on('connection', function(socket){ //nouvelle connexion
 	});
 	
 	socket.on('deconnexion', userName => { //pour renvoyer si se déconnecte
+		let deconnexion = '';
 		for(let i = 0; i < userList.length; i++){
 			if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 				let supprimeUser = userList.splice(i, 1);
+				deconnexion = {id:'serveur',message:'a quitté le salon',expediteur:userName};
+				msgEnvoiGeneral.push(deconnexion); //renvoit en Json les infos du message
+				if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
+					msgEnvoiGeneral.shift();
+				}
 			}
 		}
+		io.emit('deco affiche', deconnexion);
 		io.emit('deconnexion', userList); //on renvoit le nouveau tableau des users
 		console.log(userList);
+		console.log(deconnexion);
 	});
 	
 	socket.on('general', click => { //pour renvoyer les messages généraux
 		if(click == true){
-			io.emit('general', msgEnvoiGeneral); //on renvoit le tableau des messages general
+			returnGeneral.push({id:socket.id});
+			io.emit('general', msgEnvoiGeneral, returnGeneral); //on renvoit le tableau des messages general
 		}
 		console.log(msgEnvoiGeneral);
+		console.log(returnGeneral);
 	});
 });
 

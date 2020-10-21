@@ -44,8 +44,6 @@ function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut
 };
 
 socket.on('new user', userList => { //à chaque nouvel utilisateur on reconstruit la liste des users
-	let dernierUser = userList[userList.length - 1].user;
-	$('#messages').append('<div>'+ dernierUser + ' est entré(e) dans le salon''</div>');
 	$('#membres').empty(); //on la vide
 	$('#membres').append('<div id="general" class="selected" onclick="generalClick(this.id);">Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	
@@ -57,7 +55,6 @@ socket.on('new user', userList => { //à chaque nouvel utilisateur on reconstrui
 
 function login(e){ //login du user, on envoit son nom au serveur
 	$('#user').text(e);
-	//console.log('hello ' + e);
 	socket.emit('user', e);
 };
 
@@ -79,7 +76,7 @@ socket.on('deconnexion', userList => { //pour afficher la nouvelle liste après 
 	$('#membres').append('<div id="fermer" class="deco" onclick="decoClick();">Déconnexion</div>');
 });
 
-socket.on('chat message', function(msg){ //lorsqu'on reçoit le message et qu'on souhaite l'afficher
+socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message et qu'on souhaite l'afficher
 	if(!$('#general').hasClass('selected')){ //ajoute la notif
 		$('#general').find('img').removeClass('none');
 	}
@@ -116,15 +113,29 @@ socket.on('chat message', function(msg){ //lorsqu'on reçoit le message et qu'on
 			class1 = 'messageDetailRight';
 			class2 = 'messageRight';
 			class3 = 'userRight';
-			messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span></span></div>";
+			if(msg.id == tableau[tableau.length - 2].id){
+				messageForm = "<br/>" + msg.message;
+				$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
+			}
+			else{
+				messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span></span></div>";
+				$('#messages').append(messageForm);
+			}
 		}
 		else{ //sinon
 			class1 = 'messageDetailLeft';
 			class2 = 'messageLeft';
 			class3 = 'userLeft';
-			messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+			if(msg.id == tableau[tableau.length - 2].id){
+				messageForm = "<br/>" + msg.message;
+				$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
+			}
+			else{
+				messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+				$('#messages').append(messageForm);
+			}
 		}
-		$('#messages').append(messageForm);
+		
 		window.scrollTo(0, document.body.scrollHeight);
 	}
 });
@@ -138,7 +149,7 @@ function generalClick(id){ //quand on click sur le canal général
 	socket.emit('general', click);
 };
 
-socket.on('general', function(tableau){ //les 20 derniers msg se chargent quand il revient sur le chat général
+socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se chargent quand il revient sur le chat général
 	if($('#general').hasClass('selected')){ //supprime notif
 		$('#general').find('img').addClass('none');
 	}
@@ -169,25 +180,51 @@ socket.on('general', function(tableau){ //les 20 derniers msg se chargent quand 
 		let class2 = '';
 		let class3 = '';
 		let messageForm = '';
-		$('#messages').empty();
 		
-		//définir les classes en fonction du user qui les envoit
-		for(let i = 0; i < tableau.length; i++){
-			if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
-				class1 = 'messageDetailRight';
-				class2 = 'messageRight';
-				class3 = 'userRight';
-				messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
-			}
-			else{ //sinon
-				class1 = 'messageDetailLeft';
-				class2 = 'messageLeft';
-				class3 = 'userLeft';
-				messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
-			}
-			$('#messages').append(messageForm);
+		let taille = tableau.length;
+		let taille2 = tableau2.length;
+		
+		if((tableau[taille - 1].connected != socket.id && tableau2[taille2 - 1].id != socket.id)){ //si le user vient de se conneter ou aller dans le canal général ou les deux
+			console.log('pas moi');
 		}
-		window.scrollTo(0, document.body.scrollHeight);
+		else{	
+			$('#messages').empty();
+			
+			//définir les classes en fonction du user qui les envoit
+			for(let i = 0; i < tableau.length; i++){
+				if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
+					class1 = 'messageDetailRight';
+					class2 = 'messageRight';
+					class3 = 'userRight';
+					if(tableau[i - 1].id == tableau[i].id){
+						messageForm = "<br/>" + tableau[i].message;
+						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
+					}
+					else{
+						messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+						$('#messages').append(messageForm);
+					}
+				}
+				else if(tableau[i].id == 'serveur'){ //si id = 'serveur'
+					messageForm = '<div>'+ tableau[i].expediteur + ' ' + tableau[i].message +'</div>';
+					$('#messages').append(messageForm);
+				}
+				else{ //sinon
+					class1 = 'messageDetailLeft';
+					class2 = 'messageLeft';
+					class3 = 'userLeft';
+					if(tableau[i - 1].id == tableau[i].id){
+						messageForm = "<br/>" + tableau[i].message;
+						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
+					}
+					else{
+						messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+						$('#messages').append(messageForm);
+					}
+				}
+			}
+			window.scrollTo(0, document.body.scrollHeight);
+		}
 	}
 });
 
@@ -273,7 +310,7 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 					class1 = 'messageDetailLeft';
 					class2 = 'messageLeft';
 					class3 = 'userLeft';
-					messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+					messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 				}
 				$('#messages').append(messageForm);
 			}
@@ -323,7 +360,7 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 					class1 = 'messageDetailLeft';
 					class2 = 'messageLeft';
 					class3 = 'userLeft';
-					messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+					messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 				}
 				$('#messages').append(messageForm);
 			}
@@ -331,6 +368,15 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 		window.scrollTo(0, document.body.scrollHeight);
 	}
 });
+
+socket.on('co affiche', connexion => { //en cas de connexion
+	$('#messages').append('<div>'+ connexion.expediteur +' est entré(e) dans le salon</div>');
+});
+
+socket.on('deco affiche', deconnexion => { //en cas de déconnexion
+	$('#messages').append('<div>'+ deconnexion.expediteur +' a quitté le salon</div>');
+});
+
 
 
 
