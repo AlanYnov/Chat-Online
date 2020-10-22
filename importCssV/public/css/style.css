@@ -1,0 +1,407 @@
+* {
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+textarea{ 
+  resize:none;
+}
+
+#global{
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+#mainCtn {
+  display: none;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin-left: 33%;
+  margin-right: 33%;
+  margin-top: 5%;
+}
+
+#userCtn{
+  width: 25%;
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  background-color: #cecece59;
+}
+
+#userCtn > #imageUser {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#userCtn > #imageUser img{
+  width: 35%;
+}
+
+#msgCtn{
+  width: 75%;
+}
+
+#headMsg{
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+#headImg{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: left;
+  align-items: center;
+}
+
+#headMsg #imageSalon{
+  width: 15%;
+  margin-right: 5%;
+}
+
+#headMsg #notification{
+  width: 4%;
+  margin-right: 4%;
+}
+
+#headMsg #notification:hover{
+  cursor: pointer;
+}
+
+#messages{
+  min-height: 75vh;
+  overflow: auto;
+}
+
+.trait{
+  width: 95%;
+  border: 1px solid #cececec0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#formEnvoyer{
+  width: 75%;
+  position: fixed;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+#addFct{
+  width: 6%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  
+}
+
+#addFct img{
+ width: 40%;
+}
+
+#addFct img:hover{
+  cursor: pointer;
+ }
+
+#m{
+  width: 75%;
+  background-color: #cecece59;
+  padding: .9rem;
+  border: 0;
+  border-radius: 10px;
+  font-size: 1vw;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#m:focus{
+  border: 0;
+  outline: none;
+}
+
+#sendBtn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #318ce7;
+  border-radius: 50%;
+  padding: 1rem;
+  height: 50px;
+  width: 50px;
+  margin: 0;
+  border: 0;
+  text-align: center;
+}
+
+#sendBtn > i{
+  color: white;
+}
+
+/*** Head ***/
+
+#headCtn {
+  width: 100%;
+  background-color:#bababa;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+#headCtn > h1 {
+  text-align: center;
+}
+
+#headCtn > h1 > i {
+  margin-right: 1rem;
+}
+
+/*** Input ***/
+
+#formCtn {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.5rem;
+  background-color: #CECECE;
+}
+
+.inputCtn {
+  width: 50%;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.inputCtn > label {
+  text-align: left;
+  color: grey;
+  font-size: 1.2vw;
+  margin-bottom: 0.25rem;
+}
+
+.inputCtn > #username,
+.btn {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border: 1px solid grey;
+}
+
+.inputCtn > #username {
+  width: 100%;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  font-size: 1vw;
+}
+
+.btn {
+  width: 30%;
+  background-color: rgb(197, 195, 195);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  font-size: 1vw;
+}
+
+.btn:hover {
+  background-color: rgb(221, 221, 221);
+  transition: all 0.25s ease-in-out;
+}
+
+.search {
+  width: 80%;
+  padding: 12px 24px;
+  background-color: transparent;
+  font-size: .8vw;
+  line-height: 18px;
+  color: #575756;
+  background-color: transparent;
+  background-image: url("../img/loupe.png");
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  background-position: 95% center;
+  border-radius: 50px;
+  border: 1px solid #575756;
+  transition: all 0.25s ease-in-out;
+}
+
+.search::placeholder{
+  color: color(#575756);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.search:hover, .search:focus{
+  padding: 12px 0;
+  outline: 0;
+  border: 1px solid transparent;
+  border-bottom: 1px solid #575756;
+  border-radius: 0;
+  background-position: 100% center;
+}
+
+/***EMOJI***/
+
+.emojiPicker{
+  display: none;
+  position: fixed;
+  left: 26%;
+  top : 74vh;
+  width: 296px;
+  border: 1px solid #bbd2e1;
+  border-radius: 10px;
+  background-color: #e7e7e7;
+
+}.emojis{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}.emojiFrame{
+  box-sizing: content-box;
+  user-select: none;
+  text-align: center;
+  cursor: pointer;
+  width: 30px;
+  font-size: 21px;
+  padding: 3px;
+  margin: 3px;
+  background-color: transparent;
+  transform: scale(0.9);
+
+  transition: background-color 0.2s, transform 0.1s;
+}.emojiFrame:hover{
+  background-color: #bbd2e1;
+}.emojiFrame:active{
+  background-color: #4babff;
+  transform: scale(0.95);
+}
+
+/************/
+
+.messageDetailLeft {
+  background: #bfdbd5;
+}
+
+.messageDetailRight {
+  background: #dabfdb;
+}
+
+.messageLeft {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+}
+
+.messageRight {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: end;
+}
+
+.userLeft {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+}
+
+.userRight {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: end;
+}
+
+.containMessage {
+  width: 100%;
+  padding: 0 0 20px 0;
+}
+
+.messageDetail {
+  border: solid 2px grey;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.user {
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.heure {
+  font-size: 0.8em;
+  padding: 0 0 0 2px;
+  display: flex;
+  align-items: end;
+  min-width: 100px;
+}
+
+#membres div {
+  height: 35px;
+  border: solid 1px black;
+  margin: 10px 0;
+  padding: 0 0 0 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 10px white;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+#membres div:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.selected{
+	background: #ac95da;
+}
+
+.autres{
+	background: #fff;
+}
+
+.missed{
+	background: #ea565d;
+}
+
+.deco{
+	background: #ccc;
+}
+
+#taper{
+	position: absolute;
+	top: -25px;
+	left: 6.3%;
+}
+
+.none{
+	display: none;
+}
+
+.notif{
+	position: absolute;
+	width: 20px;
+	left: 10%;
+}

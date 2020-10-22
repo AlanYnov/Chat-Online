@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="Alan et Thomas">
+		<meta name="description" content="Le meilleur chat au monde">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Socket.IO chat</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	</head>
+
+	<body>
+		<div id="mainCtn">
+            <header id="headCtn">
+                <h1 class="titleOne">
+                    <i class="fas fa-envelope-open-text"></i>Notre Chat
+                </h1>
+            </header>
+            <div id="formCtn">
+				<div class="inputCtn">
+					<label for="username">Nom d'utilisateur</label>
+					<input type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
+				</div>
+				<input type="button" value="Entrer dans le salon" class="btn" onclick="login(document.getElementById('username').value)"/>
+            </div>
+        </div>
+		<div id="global">
+			<div id="userCtn">
+				<div id="imageUser">
+					<img src="img/man.png" alt="image man"/>
+					<div id="user"></div>
+				</div>
+				<input class="search" type="text" placeholder="Recherche..">
+				<div id="membres"></div>
+			</div>
+			<div id="msgCtn">
+				<div id="headMsg">
+					<div id="headImg">
+						<img id ="imageSalon" alt="Salon-user icone" src="img/chat.png">
+						<h1>Général</h1>
+					</div>
+					<img id="notification" class="active" alt="Cloche notification" src="img/bell1.png">
+				</div>
+				<div class="trait"></div>
+				<div id="messages"></div>
+				<div class="trait"></div>
+				<form action="" id="formEnvoyer">
+					<div class="emojiPicker hideEmoji">
+						<div class="emojis">
+						  <div class="emojiFrame"><span class="emoji">&#128540;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128513;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128514;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128515;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128516;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128517;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128518;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128519;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128521;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128522;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128523;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128524;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128525;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128526;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128527;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128528;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128529;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128530;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128531;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128532;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128533;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128534;</span></div>     
+						  <div class="emojiFrame"><span class="emoji">&#128535;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128536;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128537;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128538;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128539;</span></div>
+						  <div class="emojiFrame"><span class="emoji">&#128546;</span></div>
+						</div>
+					  </div>
+					<div id="addFct">
+						<img alt="Appareil photo" src="img/camera.png">
+						<img id="smileBtn" alt="Smile" src="img/smile.png">
+					</div>
+					<input id="m" autocomplete="off" placeholder="Envoie un message"></input>
+					<button id="sendBtn"><i class="material-icons">send</i></button>
+				</form>
+			</div>
+
+		</div>
+		<input type="hidden" value="" id="userHidden"/>
+		<input type="hidden" value="" id="idHidden"/>
+		
+	<script src="js/client.js"></script>
+	<script src="js/main.js"></script>
+	</body>
+</html>
