@@ -33,10 +33,10 @@ io.on('connection', function(socket){ //nouvelle connexion
 		//console.log(msgEnvoiGeneral);
 	});
   
-	socket.on('user', (user) => { //ajout d'un nouvel utilisateur
+	socket.on('user', function(user, img) { //ajout d'un nouvel utilisateur
 		let connexion = '';
 		if(!userList.find(user => user.id === socket.id)){
-			userList.push({id:socket.id,user:user});
+			userList.push({id:socket.id,user:user,img:img});
 			for(let i = 0; i < userList.length; i++){
 				if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 					userName = userList[i].user;

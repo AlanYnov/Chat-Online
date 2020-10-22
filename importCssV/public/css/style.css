@@ -184,13 +184,17 @@ textarea{
 
 .imageUser > img{
 	width: 25%;
-	border: solid 2px black;
+	box-shadow: 3px 3px 12px white;
 	border-radius: 50%;
 }
 
 .imageUser > img:hover{
 	cursor: pointer;
 	opacity: .5;
+}
+
+.imageSelected{
+	border: solid 2px black;
 }
 
 /*** Input ***/

@@ -1,3 +1,12 @@
+
+let img = 'img/man.png';
+$('.imageUser').children().click(function(){
+	$('.imageUser').children().removeClass('imageSelected');
+	$(this).addClass('imageSelected');
+	img = $(this).attr('src');
+	$('#imgUser').attr('src',img);
+});
+
 function login(e){ //login du user, on envoit son nom au serveur
 	const userRegex = RegExp('^[a-zA-Z]+$', 'g');
 	let user = $('#username').val().trim();
@@ -7,7 +16,7 @@ function login(e){ //login du user, on envoit son nom au serveur
 		$('#global').css('display', 'flex');
 		$('#user').text(e);
 		$('#m').focus(); //focus sur le champ du message
-		socket.emit('user', e);
+		socket.emit('user', e, img);
 	}
 	else{
 		$('#username').css('border', 'solid 1px red');
