@@ -3,6 +3,10 @@
 //     $('#mainCtn').css('display', 'none');
 // })
 
+$('#username').click(function(){
+	$('#username').css('border', 'solid 1px grey');
+});
+
 $('#notification').click(function(){
     if($('.active')[0]){
         $('#notification').attr('src', 'img/bell.png')
@@ -11,7 +15,7 @@ $('#notification').click(function(){
         $('#notification').attr('src', 'img/bell1.png')
         $('#notification').addClass('active')
     }
-})
+});
 
 $(".emojiFrame").click(function(){
     let target = $("#m");
@@ -35,4 +39,4 @@ $('#smileBtn').click(function(event){
         $('.emojiPicker').addClass('hideEmoji');
     }
     event.stopPropagation();
-})
+});

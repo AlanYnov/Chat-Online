@@ -10,7 +10,7 @@ app.use(express.static('public')); //on utilise le dossier public
 
 const userList = [];
 const msgEnvoiGeneral = [];
-const msgEnvoiPrivate = [];
+const msgEnvoiPrivate = [{id: 'test',message: 'test',expediteur: 'test',destinataire: 'test'},{id: 'test',message: 'test',expediteur: 'test',destinataire: 'test'}]; //laisser les 2 msg
 const returnGeneral = [];
 
 io.on('connection', function(socket){ //nouvelle connexion
@@ -33,7 +33,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 		//console.log(msgEnvoiGeneral);
 	});
   
-	socket.on('user', (user) => { //ajout d'un nouvelle utilisateur
+	socket.on('user', (user) => { //ajout d'un nouvel utilisateur
 		let connexion = '';
 		if(!userList.find(user => user.id === socket.id)){
 			userList.push({id:socket.id,user:user});
@@ -64,14 +64,14 @@ io.on('connection', function(socket){ //nouvelle connexion
 				//io.to(idPrivate).emit(msgEnvoiPrivate);
 			}
 		}
-		console.log(msgEnvoiPrivate);
+		//console.log(msgEnvoiPrivate);
 	});
 	
 	socket.on('enter private message', function(click) { //pour arriver sur une conv privée
 		if(click == true){
 			io.emit('enter private message', msgEnvoiPrivate); //on renvoit le tableau des messages privés
 		}
-		console.log(msgEnvoiPrivate);
+		//console.log(msgEnvoiPrivate);
 	});
 	
 	socket.on('typing', typing => { //pour renvoyer si le user tape ou non
@@ -107,7 +107,8 @@ io.on('connection', function(socket){ //nouvelle connexion
 	});
 	
 	socket.on('general', click => { //pour renvoyer les messages généraux
-		if(click == true){
+		const found = returnGeneral.find(el => el.id === socket.id);
+		if((click == true) && (!found)){
 			returnGeneral.push({id:socket.id});
 			io.emit('general', msgEnvoiGeneral, returnGeneral); //on renvoit le tableau des messages general
 		}

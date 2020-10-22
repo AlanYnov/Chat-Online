@@ -14,12 +14,12 @@ textarea{
 
 #global{
   width: 100%;
-  display: flex;
+  display: none;
   flex-flow: row nowrap;
 }
 
 #mainCtn {
-  display: none;
+  display: flex;
   flex-flow: column nowrap;
   align-items: center;
   margin-left: 33%;
@@ -173,6 +173,24 @@ textarea{
 
 #headCtn > h1 > i {
   margin-right: 1rem;
+}
+
+.imageUser{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	padding: 2% 20%;
+}
+
+.imageUser > img{
+	width: 25%;
+	border: solid 2px black;
+	border-radius: 50%;
+}
+
+.imageUser > img:hover{
+	cursor: pointer;
+	opacity: .5;
 }
 
 /*** Input ***/

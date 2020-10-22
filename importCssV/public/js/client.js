@@ -1,12 +1,22 @@
-
-$('.btn').click(function(){ //au click du bouton de connexion
-	if($('#username').val()!==''){
+function login(e){ //login du user, on envoit son nom au serveur
+	const userRegex = RegExp('^[a-zA-Z]+$', 'g');
+	let user = $('#username').val().trim();
+	let result = userRegex.test(user);
+	if(result == true){
 		$('#mainCtn').css('display', 'none');
 		$('#global').css('display', 'flex');
+		$('#user').text(e);
 		$('#m').focus(); //focus sur le champ du message
-		let click = true;
-		socket.emit('general', click); //les 20 derniers msg se chargent à sa connexion
+		socket.emit('user', e);
 	}
+	else{
+		$('#username').css('border', 'solid 1px red');
+	}
+};
+
+$('.btn').click(function(){ //au click du bouton de connexion
+	let click = true;
+	socket.emit('general', click); //les 20 derniers msg se chargent à sa connexion
 });
 
 let userList = [];
@@ -39,6 +49,8 @@ function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut
 	$('#'+id).addClass('selected');
 	$('#messages').empty(); //on vide les messages à chaque changement de conv
 	privateUser = id;
+	let name = $('#'+privateUser).text();
+	$('#convName').text(name);
 	let click = true;
 	socket.emit('enter private message', click);
 };
@@ -52,11 +64,6 @@ socket.on('new user', userList => { //à chaque nouvel utilisateur on reconstrui
 	}
 	$('#membres').append('<div id="fermer" class="deco" onclick="decoClick();">Déconnexion</div>');
 });
-
-function login(e){ //login du user, on envoit son nom au serveur
-	$('#user').text(e);
-	socket.emit('user', e);
-};
 
 function decoClick(){ //pour déconnecter le user en question
 	let userName = $('#user').text();
@@ -180,12 +187,13 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 		let class2 = '';
 		let class3 = '';
 		let messageForm = '';
+		$('#convName').text('Général');
 		
 		let taille = tableau.length;
 		let taille2 = tableau2.length;
 		
 		if((tableau[taille - 1].connected != socket.id && tableau2[taille2 - 1].id != socket.id)){ //si le user vient de se conneter ou aller dans le canal général ou les deux
-			console.log('pas moi');
+			//console.log('pas moi');
 		}
 		else{	
 			$('#messages').empty();
@@ -304,15 +312,28 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 					class1 = 'messageDetailRight';
 					class2 = 'messageRight';
 					class3 = 'userRight';
-					messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+					if(tableau[i - 1].id == tableau[i].id){
+						messageForm = "<br/>" + tableau[i].message;
+						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
+					}
+					else{
+						messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+						$('#messages').append(messageForm);
+					}
 				}
 				else{ //sinon
 					class1 = 'messageDetailLeft';
 					class2 = 'messageLeft';
 					class3 = 'userLeft';
-					messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+					if(tableau[i - 1].id == tableau[i].id){
+						messageForm = "<br/>" + tableau[i].message;
+						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
+					}
+					else{
+						messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+						$('#messages').append(messageForm);
+					}				
 				}
-				$('#messages').append(messageForm);
 			}
 		}
 		window.scrollTo(0, document.body.scrollHeight);
@@ -354,15 +375,28 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 					class1 = 'messageDetailRight';
 					class2 = 'messageRight';
 					class3 = 'userRight';
-					messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+					if(tableau[i - 1].id == tableau[i].id){
+						messageForm = "<br/>" + tableau[i].message;
+						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
+					}
+					else{
+						messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+						$('#messages').append(messageForm);
+					}
 				}
 				else{ //sinon
 					class1 = 'messageDetailLeft';
 					class2 = 'messageLeft';
 					class3 = 'userLeft';
-					messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+					if(tableau[i - 1].id == tableau[i].id){
+						messageForm = "<br/>" + tableau[i].message;
+						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
+					}
+					else{
+						messageForm = "<div class='containMessage'><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+						$('#messages').append(messageForm);
+					}				
 				}
-				$('#messages').append(messageForm);
 			}
 		}
 		window.scrollTo(0, document.body.scrollHeight);
