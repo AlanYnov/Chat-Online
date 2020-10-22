@@ -14,12 +14,12 @@ textarea{
 
 #global{
   width: 100%;
-  display: flex;
+  display: none;
   flex-flow: row nowrap;
 }
 
 #mainCtn {
-  display: none;
+  display: flex;
   flex-flow: column nowrap;
   align-items: center;
   margin-left: 33%;
