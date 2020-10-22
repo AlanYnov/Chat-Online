@@ -175,6 +175,28 @@ textarea{
   margin-right: 1rem;
 }
 
+.imageUser{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	padding: 2% 20%;
+}
+
+.imageUser > img{
+	width: 25%;
+	box-shadow: 3px 3px 12px white;
+	border-radius: 50%;
+}
+
+.imageUser > img:hover{
+	cursor: pointer;
+	opacity: .5;
+}
+
+.imageSelected{
+	border: solid 2px black;
+}
+
 /*** Input ***/
 
 #formCtn {

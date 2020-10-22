@@ -2,8 +2,8 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8">
-		<meta name="author" content="Alan et Thomas">
-		<meta name="description" content="Le meilleur chat au monde">
+		<meta name="author" content="Thomas et Alan">
+		<meta name="description" content="Notre chat personnel">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Socket.IO chat</title>
 		<link rel="stylesheet" href="css/style.css" />
@@ -21,6 +21,11 @@
                 </h1>
             </header>
             <div id="formCtn">
+				<div class="imageUser">
+					<img src="img/man.png" class="imageSelected" alt="image user"/>
+					<img src="img/dad.png" class="" alt="image user"/>
+					<img src="img/doctor.png" class="" alt="image user"/>
+				</div>
 				<div class="inputCtn">
 					<label for="username">Nom d'utilisateur</label>
 					<input type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
@@ -31,7 +36,7 @@
 		<div id="global">
 			<div id="userCtn">
 				<div id="imageUser">
-					<img src="img/man.png" alt="image man"/>
+					<img src="img/man.png" id="imgUser" alt="image man"/>
 					<div id="user"></div>
 				</div>
 				<input class="search" type="text" placeholder="Recherche..">
@@ -41,7 +46,7 @@
 				<div id="headMsg">
 					<div id="headImg">
 						<img id ="imageSalon" alt="Salon-user icone" src="img/chat.png">
-						<h1>Général</h1>
+						<h1 id='convName'>Général</h1>
 					</div>
 					<img id="notification" class="active" alt="Cloche notification" src="img/bell1.png">
 				</div>
