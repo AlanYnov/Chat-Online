@@ -51,7 +51,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 			}
 		}
 		console.log(userList);
-		io.emit('new user', userList);
+		io.emit('list', userList);
 		io.emit('co affiche', connexion);
 	});
   
@@ -103,7 +103,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 			}
 		}
 		io.emit('deco affiche', deconnexion);
-		io.emit('deconnexion', userList); //on renvoit le nouveau tableau des users
+		io.emit('list', userList); //on renvoit le nouveau tableau des users
 		console.log(userList);
 		console.log(deconnexion);
 	});

@@ -14,15 +14,9 @@ let dateNow = function getDate(date){
 				let devant = "";
 				let devant1 = "";
 				let devant2 = "";
-				if(convertMinutes.length == 1){ //mettre un zéro devant
-					devant = "0";
-				}
-				if(convertJour.length == 1){ //mettre un zéro devant
-					devant1 = "0";
-				}
-				if(convertMois.length == 1){ //mettre un zéro devant
-					devant2 = "0";
-				}
+				if(convertMinutes.length == 1){ devant = "0"; }
+				if(convertJour.length == 1){ devant1 = "0"; }
+				if(convertMois.length == 1){ devant2 = "0"; }
 				let dateGlobale = "Le " + devant1 + convertJour + "/" + devant2 + convertMois + " à " + heure + ":" + devant + convertMinutes;
 				return dateGlobale;
 			}
@@ -97,7 +91,7 @@ function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut
 	socket.emit('enter private message', click);
 };
 
-socket.on('new user', userList => { //à chaque nouvel utilisateur on reconstruit la liste des users
+socket.on('list', userList => { //générer nouvelle liste users (connexion, déconnexion)
 	$('#membres').empty(); //on la vide
 	$('#membres').append('<div id="general" class="selected" onclick="generalClick(this.id);">Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	
@@ -113,16 +107,6 @@ function decoClick(){ //pour déconnecter le user en question
 	$('#mainCtn').css('display', 'flex');
 	$('#global').css('display', 'none');
 };
-
-socket.on('deconnexion', userList => { //pour afficher la nouvelle liste après la déconnexion
-	$('#membres').empty(); //on la vide
-	$('#membres').append('<div id="general" class="selected" onclick="generalClick(this.id);">Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
-	
-	for(let i = 0 ; i < userList.length; i++){ //boucle pour afficher les users connectés
-		$('#membres').append('<div class="userFrame" id="'+userList[i].id+'" onclick="privateMsg(this.id);"><div class="profilCtn"><img src="'+ userList[i].img +'" id="imgUser" alt="image man">'+userList[i].user+'</div><img src="../img/notification.png" class="notif none" alt="notif"></div>');
-	}
-	$('#membres').append('<div id="fermer" class="deco" onclick="decoClick();">Déconnexion</div>');
-});
 
 socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message et qu'on souhaite l'afficher
 	if(!$('#general').hasClass('selected')){ //ajoute la notif
@@ -349,9 +333,9 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 });
 
 socket.on('co affiche', connexion => { //en cas de connexion
-	$('#messages').append('<div class=serverMessage>'+ connexion.expediteur +' est entré(e) dans le salon</div>');
+	$('#messages').append('<div class="serverMessage">'+ connexion.expediteur +' est entré(e) dans le salon</div>');
 });
 
 socket.on('deco affiche', deconnexion => { //en cas de déconnexion
-	$('#messages').append('<div>'+ deconnexion.expediteur +' a quitté le salon</div>');
+	$('#messages').append('<div class="serverMessage">'+ deconnexion.expediteur +' a quitté le salon</div>');
 });
