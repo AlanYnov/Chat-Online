@@ -22,7 +22,8 @@ io.on('connection', function(socket){ //nouvelle connexion
 		for(let i = 0; i < userList.length; i++){
 			if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 				userName = userList[i].user;
-				msgEnvoi = {id:socket.id,message:msg,expediteur:userName};
+				img = userList[i].img;
+				msgEnvoi = {id:socket.id,message:msg,expediteur:userName,img:img};
 				msgEnvoiGeneral.push(msgEnvoi); //renvoit en Json les infos du message
 				if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
 					msgEnvoiGeneral.shift();
@@ -59,7 +60,8 @@ io.on('connection', function(socket){ //nouvelle connexion
 		for(let i = 0; i < userList.length; i++){
 			if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 				userName = userList[i].user;
-				msgEnvoiPrivate.push({id:socket.id,message:message,expediteur:userName,destinataire:idPrivate}); //renvoit en Json les infos du message
+				img = userList[i].img;
+				msgEnvoiPrivate.push({id:socket.id,message:message,expediteur:userName,destinataire:idPrivate,img:img}); //renvoit en Json les infos du message
 				io.emit('private message', msgEnvoiPrivate);
 				//io.to(idPrivate).emit(msgEnvoiPrivate);
 			}
@@ -107,8 +109,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 	});
 	
 	socket.on('general', click => { //pour renvoyer les messages généraux
-		const found = returnGeneral.find(el => el.id === socket.id);
-		if((click == true) && (!found)){
+		if(click == true){
 			returnGeneral.push({id:socket.id});
 			io.emit('general', msgEnvoiGeneral, returnGeneral); //on renvoit le tableau des messages general
 		}
