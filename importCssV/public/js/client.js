@@ -3,6 +3,29 @@ let userList = [];
 const socket = io();
 let privateUser = ''; //si un message privé est à envoyer
 let img = 'img/man.png';
+let dateNow = function getDate(date){
+				let heure = date.getHours(); //récupérer heure
+				let minutes = date.getMinutes(); //récupérer minutes
+				let jour = date.getDate();
+				let mois = date.getMonth() + 1;
+				let convertMinutes = minutes.toString();
+				let	convertJour = jour.toString();
+				let	convertMois = mois.toString();
+				let devant = "";
+				let devant1 = "";
+				let devant2 = "";
+				if(convertMinutes.length == 1){ //mettre un zéro devant
+					devant = "0";
+				}
+				if(convertJour.length == 1){ //mettre un zéro devant
+					devant1 = "0";
+				}
+				if(convertMois.length == 1){ //mettre un zéro devant
+					devant2 = "0";
+				}
+				let dateGlobale = "Le " + devant1 + convertJour + "/" + devant2 + convertMois + " à " + heure + ":" + devant + convertMinutes;
+				return dateGlobale;
+			}
 
 $('.imageUser').children().click(function(){
 	$('.imageUser').children().removeClass('imageSelected');
@@ -44,11 +67,12 @@ function generalClick(id){ //quand on click sur le canal général
 
 $('#formEnvoyer').submit(function(){ //au submit du message
 	let variable = $('#m').val().trim(); //enlève les espaces dans le message
+	let date = dateNow(new Date); //recupère la date et heure d'envoi
 	if((variable != '') && ($('#general').hasClass('selected'))){ //teste si le message est vide et que l'on veut envoyer le message au général
-		socket.emit('chat message', $('#m').val());
+		socket.emit('chat message', $('#m').val(), date);
 	}
 	else if(variable != ''){
-		socket.emit('private message', $('#m').val(), privateUser);
+		socket.emit('private message', $('#m').val(), privateUser, date);
 	}
 	$('#m').val('');
 	return false;
@@ -61,7 +85,6 @@ function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut
 	//on supprime les class
 	$('#general').removeClass('selected');
 	$('#general').addClass('autres');
-	//console.log(id); //on récupère l'id du user
 	$('.selected').addClass('autres');
 	$('.selected').removeClass('selected');
 	$('#'+id).removeClass('autres');
@@ -106,28 +129,6 @@ socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message
 		$('#general').find('img').removeClass('none');
 	}
 	if($('#general').hasClass('selected')){ //si on est placé dans le canal général
-		//construction de la date
-		let date = new Date();
-		let heure = date.getHours(); //récupérer heure
-		let minutes = date.getMinutes(); //récupérer minutes
-		let jour = date.getDate();
-		let mois = date.getMonth() + 1;
-		let convertMinutes = minutes.toString();
-		let	convertJour = jour.toString();
-		let	convertMois = mois.toString();
-		let devant = "";
-		let devant1 = "";
-		let devant2 = "";
-		if(convertMinutes.length == 1){ //mettre un zéro devant
-			devant = "0";
-		}
-		if(convertJour.length == 1){ //mettre un zéro devant
-			devant1 = "0";
-		}
-		if(convertMois.length == 1){ //mettre un zéro devant
-			devant2 = "0";
-		}
-		
 		let class1 = '';
 		let class2 = '';
 		let class3 = '';
@@ -143,7 +144,7 @@ socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message
 				$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 			}
 			else{
-				messageForm = "<div class='containMessage'><img src="+ msg.img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span></span></div>";
+				messageForm = "<div class='containMessage'><img src="+ msg.img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='heure'>" + msg.date + "</span><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span></span></div>";
 				$('#messages').append(messageForm);
 			}
 		}
@@ -156,7 +157,7 @@ socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message
 				$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 			}
 			else{
-				messageForm = "<div class='containMessage'><img src="+ msg.img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+				messageForm = "<div class='containMessage'><img src="+ msg.img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span><span class='heure'>" + msg.date + "</span></span></div>";
 				$('#messages').append(messageForm);
 			}
 		}
@@ -171,27 +172,6 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 	}
 	//construction de la date
 	if($('#general').hasClass('selected')){ //si on est placé dans le canal général
-		let date = new Date();
-		let heure = date.getHours(); //récupérer heure
-		let minutes = date.getMinutes(); //récupérer minutes
-		let jour = date.getDate();
-		let mois = date.getMonth() + 1;
-		let convertMinutes = minutes.toString();
-		let	convertJour = jour.toString();
-		let	convertMois = mois.toString();
-		let devant = "";
-		let devant1 = "";
-		let devant2 = "";
-		if(convertMinutes.length == 1){ //mettre un zéro devant
-			devant = "0";
-		}
-		if(convertJour.length == 1){ //mettre un zéro devant
-			devant1 = "0";
-		}
-		if(convertMois.length == 1){ //mettre un zéro devant
-			devant2 = "0";
-		}
-
 		let class1 = '';
 		let class2 = '';
 		let class3 = '';
@@ -217,7 +197,7 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -234,7 +214,7 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -287,28 +267,6 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 	
 	if(!$('#general').hasClass('selected')){ //si on n'est pas dans le chat général
 		$('#messages').empty();
-		//console.log('pas dans le général');
-		let date = new Date();
-		let heure = date.getHours(); //récupérer heure
-		let minutes = date.getMinutes(); //récupérer minutes
-		let jour = date.getDate();
-		let mois = date.getMonth() + 1;
-		let convertMinutes = minutes.toString();
-		let	convertJour = jour.toString();
-		let	convertMois = mois.toString();
-		let devant = "";
-		let devant1 = "";
-		let devant2 = "";
-		if(convertMinutes.length == 1){ //mettre un zéro devant
-			devant = "0";
-		}
-		if(convertJour.length == 1){ //mettre un zéro devant
-			devant1 = "0";
-		}
-		if(convertMois.length == 1){ //mettre un zéro devant
-			devant2 = "0";
-		}
-
 		let class1 = '';
 		let class2 = '';
 		let class3 = '';
@@ -325,7 +283,7 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -338,7 +296,7 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}				
 				}
@@ -350,27 +308,6 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 
 socket.on('enter private message', function(tableau){ //afficher les messages privés des conv
 	if(!$('#general').hasClass('selected')){ //si on n'est pas dans le chat général
-		let date = new Date();
-		let heure = date.getHours(); //récupérer heure
-		let minutes = date.getMinutes(); //récupérer minutes
-		let jour = date.getDate();
-		let mois = date.getMonth() + 1;
-		let convertMinutes = minutes.toString();
-		let	convertJour = jour.toString();
-		let	convertMois = mois.toString();
-		let devant = "";
-		let devant1 = "";
-		let devant2 = "";
-		if(convertMinutes.length == 1){ //mettre un zéro devant
-			devant = "0";
-		}
-		if(convertJour.length == 1){ //mettre un zéro devant
-			devant1 = "0";
-		}
-		if(convertMois.length == 1){ //mettre un zéro devant
-			devant2 = "0";
-		}
-
 		let class1 = '';
 		let class2 = '';
 		let class3 = '';
@@ -388,7 +325,7 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -401,7 +338,7 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>Le " + devant1 + jour + "/" + devant2 + mois  + " à "+ heure + ":" + devant + minutes +"</span></span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}				
 				}
@@ -418,7 +355,3 @@ socket.on('co affiche', connexion => { //en cas de connexion
 socket.on('deco affiche', deconnexion => { //en cas de déconnexion
 	$('#messages').append('<div>'+ deconnexion.expediteur +' a quitté le salon</div>');
 });
-
-
-
-

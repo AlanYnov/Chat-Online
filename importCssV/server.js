@@ -16,14 +16,14 @@ const returnGeneral = [];
 io.on('connection', function(socket){ //nouvelle connexion
 	console.log('Nouvelle connexion');
   
-	socket.on('chat message', function(msg) { //lorsqu'on envoit un message
+	socket.on('chat message', function(msg, date) { //lorsqu'on envoit un message
 		let userName = '';
 		let msgEnvoi = '';
 		for(let i = 0; i < userList.length; i++){
 			if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 				userName = userList[i].user;
 				img = userList[i].img;
-				msgEnvoi = {id:socket.id,message:msg,expediteur:userName,img:img};
+				msgEnvoi = {id:socket.id,message:msg,expediteur:userName,img:img,date:date};
 				msgEnvoiGeneral.push(msgEnvoi); //renvoit en Json les infos du message
 				if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
 					msgEnvoiGeneral.shift();
@@ -55,13 +55,13 @@ io.on('connection', function(socket){ //nouvelle connexion
 		io.emit('co affiche', connexion);
 	});
   
-	socket.on('private message', function(message,idPrivate) { //pour envoyer un message privé
+	socket.on('private message', function(message,idPrivate, date) { //pour envoyer un message privé
 		let userName = '';
 		for(let i = 0; i < userList.length; i++){
 			if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 				userName = userList[i].user;
 				img = userList[i].img;
-				msgEnvoiPrivate.push({id:socket.id,message:message,expediteur:userName,destinataire:idPrivate,img:img}); //renvoit en Json les infos du message
+				msgEnvoiPrivate.push({id:socket.id,message:message,expediteur:userName,destinataire:idPrivate,img:img,date:date}); //renvoit en Json les infos du message
 				io.emit('private message', msgEnvoiPrivate);
 				//io.to(idPrivate).emit(msgEnvoiPrivate);
 			}
