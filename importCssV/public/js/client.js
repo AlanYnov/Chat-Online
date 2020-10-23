@@ -98,8 +98,11 @@ socket.on('list', userList => { //générer nouvelle liste users (connexion, dé
 	for(let i = 0 ; i < userList.length; i++){ //boucle pour afficher les users connectés
 		$('#membres').append('<div class="userFrame" id="'+userList[i].id+'" onclick="privateMsg(this.id);"><div class="profilCtn"><img src="'+ userList[i].img +'" id="imgUser" alt="image man">'+userList[i].user+'</div><img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	}
-	$('#membres').append('<div id="fermer" class="deco" onclick="decoClick();">Déconnexion</div>');
 });
+
+$('.material-icons').click(function(){
+	decoClick();
+})
 
 function decoClick(){ //pour déconnecter le user en question
 	let userName = $('#user').text();
