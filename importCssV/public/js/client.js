@@ -72,7 +72,7 @@ $('#formEnvoyer').submit(function(){ //au submit du message
 	return false;
 });
 
-function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut avoir une conv privée 
+function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut avoir une conv privée
 	if(!$('#'+id).find('img').hasClass('none')){ //on enlève la notif si elle existe
 		$('#'+id).find('img').addClass('none');
 	}
@@ -98,8 +98,11 @@ socket.on('list', userList => { //générer nouvelle liste users (connexion, dé
 	for(let i = 0 ; i < userList.length; i++){ //boucle pour afficher les users connectés
 		$('#membres').append('<div class="userFrame" id="'+userList[i].id+'" onclick="privateMsg(this.id);"><div class="profilCtn"><img src="'+ userList[i].img +'" id="imgUser" alt="image man">'+userList[i].user+'</div><img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	}
-	$('#membres').append('<div id="fermer" class="deco" onclick="decoClick();">Déconnexion</div>');
 });
+
+$('.material-icons').click(function(){ //action de déconnexion
+	decoClick();
+})
 
 function decoClick(){ //pour déconnecter le user en question
 	let userName = $('#user').text();
@@ -108,8 +111,27 @@ function decoClick(){ //pour déconnecter le user en question
 	$('#global').css('display', 'none');
 };
 
-socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message et qu'on souhaite l'afficher
-	if(!$('#general').hasClass('selected')){ //ajoute la notif
+$('#notification').click(function(){ //afficher/masquer les notifications
+	let click = true;
+	socket.emit('notifications', click);
+    if($('.active')[0]){
+        $('#notification').attr('src', 'img/bell.png');
+        $('#notification').removeClass('active');
+		
+    } else{
+        $('#notification').attr('src', 'img/bell1.png');
+        $('#notification').addClass('active');
+    }
+});
+
+socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le message et qu'on souhaite l'afficher
+	let notif = true;
+	for(let i = 0; i < user.length; i++){
+		if(user[i].id == socket.id){
+			notif = user[i].notif;
+		}
+	}
+	if(!$('#general').hasClass('selected') && notif == true){ //ajoute la notif
 		$('#general').find('img').removeClass('none');
 	}
 	if($('#general').hasClass('selected')){ //si on est placé dans le canal général
@@ -242,10 +264,16 @@ socket.on('display', (barre) => { //on change le texte si le user tape ou non
 	}
 });
 
-socket.on('private message', function(tableau){ //afficher les messages privés des conv
+socket.on('private message', function(tableau, user){ //afficher les messages privés des conv
+	let notif = true;
+	for(let i = 0; i < user.length; i++){
+		if(user[i].id == socket.id){
+			notif = user[i].notif;
+		}
+	}
 	let dernierMsg = tableau[tableau.length - 1].id; //le dernier user qui a envoyé un message privé
 	let destinataire = tableau[tableau.length - 1].destinataire;
-	if(!$('#'+dernierMsg).hasClass('selected') && dernierMsg != socket.id && destinataire == socket.id){ //si on reçoit un message afficher une notif
+	if(!$('#'+dernierMsg).hasClass('selected') && dernierMsg != socket.id && destinataire == socket.id && notif == true){ //si on reçoit un message afficher une notif
 		$('#'+dernierMsg).find('img').removeClass('none');
 	}
 	

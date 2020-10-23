@@ -28,7 +28,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 				if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
 					msgEnvoiGeneral.shift();
 				}
-				io.emit('chat message', msgEnvoi, msgEnvoiGeneral);
+				io.emit('chat message', msgEnvoi, msgEnvoiGeneral, userList);
 			}
 		}
 		//console.log(msgEnvoiGeneral);
@@ -37,7 +37,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 	socket.on('user', function(user, img) { //ajout d'un nouvel utilisateur
 		let connexion = '';
 		if(!userList.find(user => user.id === socket.id)){
-			userList.push({id:socket.id,user:user,img:img});
+			userList.push({id:socket.id,user:user,img:img,notif:true});
 			for(let i = 0; i < userList.length; i++){
 				if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 					userName = userList[i].user;
@@ -62,7 +62,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 				userName = userList[i].user;
 				img = userList[i].img;
 				msgEnvoiPrivate.push({id:socket.id,message:message,expediteur:userName,destinataire:idPrivate,img:img,date:date}); //renvoit en Json les infos du message
-				io.emit('private message', msgEnvoiPrivate);
+				io.emit('private message', msgEnvoiPrivate, userList);
 				//io.to(idPrivate).emit(msgEnvoiPrivate);
 			}
 		}
@@ -105,7 +105,6 @@ io.on('connection', function(socket){ //nouvelle connexion
 		io.emit('deco affiche', deconnexion);
 		io.emit('list', userList); //on renvoit le nouveau tableau des users
 		console.log(userList);
-		console.log(deconnexion);
 	});
 	
 	socket.on('general', click => { //pour renvoyer les messages généraux
@@ -113,8 +112,23 @@ io.on('connection', function(socket){ //nouvelle connexion
 			returnGeneral.push({id:socket.id});
 			io.emit('general', msgEnvoiGeneral, returnGeneral); //on renvoit le tableau des messages general
 		}
-		console.log(msgEnvoiGeneral);
-		console.log(returnGeneral);
+	});
+	
+	socket.on('notifications', click => { //changer l'etat des notifications (on/off)
+		if(click == true){
+			for(let i = 0; i < userList.length; i++){
+				if(userList[i].id == socket.id){
+					let notif = userList[i].notif;
+					if(notif == true){
+						userList[i].notif = false;
+					}
+					else{
+						userList[i].notif = true;
+					}
+				}
+			}
+		}
+		//console.log(userList);
 	});
 });
 

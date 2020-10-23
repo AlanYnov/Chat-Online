@@ -58,6 +58,7 @@ textarea{
 
 #msgCtn{
   width: 75%;
+  overflow: auto;
 }
 
 #headMsg{
@@ -351,10 +352,11 @@ textarea{
   border: 1px solid #bbd2e1;
   border-radius: 10px;
   background-color: #e7e7e7;
+}
 
-}.emojis{
-  width: 100%;
+.emojis > div{
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
 }.emojiFrame{
   box-sizing: content-box;
@@ -437,6 +439,7 @@ textarea{
 
 #membres {
   width: 100%;
+  overflow:auto;
 }
 
 #membres .userFrame {
@@ -500,4 +503,18 @@ textarea{
   font-style: italic;
   color: #425b8a;
   margin-bottom: 1%;
+}
+
+.emoCatCtn{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+.catico{
+  padding: .6rem 1rem;
+}
+
+.catico:hover{
+  background-color:  #bbd2e183;
+  cursor: pointer;
 }
