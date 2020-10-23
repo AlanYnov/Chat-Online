@@ -46,11 +46,10 @@ io.on('connection', function(socket){ //nouvelle connexion
 					if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
 						msgEnvoiGeneral.shift();
 					}
-					//io.emit('is connected', connexion);
 				}
 			}
 		}
-		console.log(userList);
+		//console.log(userList);
 		io.emit('list', userList);
 		io.emit('co affiche', connexion);
 	});
@@ -104,7 +103,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 		}
 		io.emit('deco affiche', deconnexion);
 		io.emit('list', userList); //on renvoit le nouveau tableau des users
-		console.log(userList);
+		//console.log(userList);
 	});
 	
 	socket.on('general', click => { //pour renvoyer les messages généraux
