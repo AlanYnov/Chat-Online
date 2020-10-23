@@ -27,6 +27,10 @@ textarea{
   margin-top: 5%;
 }
 
+#user{
+  font-size: 2vw;
+}
+
 #userCtn{
   width: 25%;
   min-height: 100vh;
@@ -46,6 +50,10 @@ textarea{
 
 #userCtn > #imageUser img{
   width: 35%;
+}
+
+.userFrame img {
+  width: 10%;
 }
 
 #msgCtn{
@@ -75,18 +83,37 @@ textarea{
   margin-right: 5%;
 }
 
-#headMsg #notification{
-  width: 4%;
+#iconCtn{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: right;
+  align-items: center;
+  margin-right: 5%;
+}
+
+#headMsg #iconCtn #notification{
+  width: 8%;
   margin-right: 4%;
 }
 
-#headMsg #notification:hover{
+.material-icons{
+  transition: all .25s ease-in-out;
+}
+
+.material-icons:hover{
+  cursor: pointer;
+  color: #DB1702;
+  transition: all .5s ease-in-out;
+}
+
+#headMsg #iconCtn #notification:hover{
   cursor: pointer;
 }
 
 #messages{
   min-height: 75vh;
   overflow: auto;
+  padding: 2rem;
 }
 
 .trait{
@@ -99,6 +126,13 @@ textarea{
 #formEnvoyer{
   width: 75%;
   position: fixed;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#formEnvoyer > .formCtn{
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -151,6 +185,13 @@ textarea{
   margin: 0;
   border: 0;
   text-align: center;
+  transition: all .5s ease-in-out;
+}
+
+#sendBtn:hover{
+  cursor: pointer;
+  background-color: #3ab1e0;
+  transition: all .5s ease-in-out;
 }
 
 #sendBtn > i{
@@ -377,31 +418,47 @@ textarea{
   min-width: 100px;
 }
 
-#membres div {
-  height: 35px;
-  border: solid 1px black;
-  margin: 10px 0;
-  padding: 0 0 0 10px;
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px white;
-  font-weight: bold;
-  letter-spacing: 1px;
+#membres {
+  width: 100%;
+}
+
+#membres .userFrame {
+  width: 100%;
   display: flex;
   flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 2rem;
+  line-height: 4vw;
+  font-size: 1vw;
+}
+
+#membres .userFrame:hover {
+  cursor: pointer;
+  background-color: #bbd2e183;
+}
+
+#imgUser{
+  border: 1px transparent black;
+  border-radius: 50%;
+  background-color: #318ce7;
+  margin-right: 1vw;
+}
+
+.profilCtn{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: left;
   align-items: center;
 }
 
-#membres div:hover {
-  cursor: pointer;
-  opacity: 0.5;
+.notif{
+  width: 10%;
+  margin-right: 1.5rem;
 }
 
 .selected{
 	background: #ac95da;
-}
-
-.autres{
-	background: #fff;
 }
 
 .missed{
@@ -422,8 +479,8 @@ textarea{
 	display: none;
 }
 
-.notif{
-	position: absolute;
-	width: 20px;
-	left: 10%;
+.serverMessage{
+  font-style: italic;
+  color: #425b8a;
+  margin-bottom: 1%;
 }

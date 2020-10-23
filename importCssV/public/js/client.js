@@ -69,7 +69,7 @@ socket.on('new user', userList => { //à chaque nouvel utilisateur on reconstrui
 	$('#membres').append('<div id="general" class="selected" onclick="generalClick(this.id);">Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	
 	for(let i = 0 ; i < userList.length; i++){ //boucle pour afficher les users connectés
-		$('#membres').append('<div class="autres" id="'+userList[i].id+'" onclick="privateMsg(this.id);">'+userList[i].user+'<img src="../img/notification.png" class="notif none" alt="notif"></div>');
+		$('#membres').append('<div class="userFrame" id="'+userList[i].id+'" onclick="privateMsg(this.id);"><div class="profilCtn"><img src="img/man.png" id="imgUser" alt="image man">'+userList[i].user+'</div><img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	}
 	$('#membres').append('<div id="fermer" class="deco" onclick="decoClick();">Déconnexion</div>');
 });
@@ -223,7 +223,7 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 					}
 				}
 				else if(tableau[i].id == 'serveur'){ //si id = 'serveur'
-					messageForm = '<div>'+ tableau[i].expediteur + ' ' + tableau[i].message +'</div>';
+					messageForm = '<div class="serverMessage">'+ tableau[i].expediteur + ' ' + tableau[i].message +'</div>';
 					$('#messages').append(messageForm);
 				}
 				else{ //sinon
@@ -413,7 +413,7 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 });
 
 socket.on('co affiche', connexion => { //en cas de connexion
-	$('#messages').append('<div>'+ connexion.expediteur +' est entré(e) dans le salon</div>');
+	$('#messages').append('<div class=serverMessage>'+ connexion.expediteur +' est entré(e) dans le salon</div>');
 });
 
 socket.on('deco affiche', deconnexion => { //en cas de déconnexion

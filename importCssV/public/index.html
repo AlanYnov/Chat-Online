@@ -28,7 +28,7 @@
 				</div>
 				<div class="inputCtn">
 					<label for="username">Nom d'utilisateur</label>
-					<input type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
+					<input maxlength="16" type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
 				</div>
 				<input type="button" value="Entrer dans le salon" class="btn" onclick="login(document.getElementById('username').value)"/>
             </div>
@@ -48,50 +48,55 @@
 						<img id ="imageSalon" alt="Salon-user icone" src="img/chat.png">
 						<h1 id='convName'>Général</h1>
 					</div>
-					<img id="notification" class="active" alt="Cloche notification" src="img/bell1.png">
+					<div id="iconCtn">
+						<img id="notification" class="active" alt="Cloche notification" src="img/bell1.png">
+						<i style="font-size:2.5vw" class="material-icons">power_settings_new</i>
+					</div>
 				</div>
 				<div class="trait"></div>
 				<div id="messages"></div>
-				<div class="trait"></div>
 				<form action="" id="formEnvoyer">
-					<div class="emojiPicker hideEmoji">
-						<div class="emojis">
-						  <div class="emojiFrame"><span class="emoji">&#128540;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128513;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128514;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128515;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128516;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128517;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128518;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128519;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128521;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128522;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128523;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128524;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128525;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128526;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128527;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128528;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128529;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128530;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128531;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128532;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128533;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128534;</span></div>     
-						  <div class="emojiFrame"><span class="emoji">&#128535;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128536;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128537;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128538;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128539;</span></div>
-						  <div class="emojiFrame"><span class="emoji">&#128546;</span></div>
+					<div class="trait"></div>
+					<div class="formCtn">
+						<div class="emojiPicker hideEmoji">
+							<div class="emojis">
+							<div class="emojiFrame"><span class="emoji">&#128540;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128513;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128514;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128515;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128516;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128517;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128518;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128519;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128521;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128522;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128523;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128524;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128525;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128526;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128527;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128528;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128529;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128530;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128531;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128532;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128533;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128534;</span></div>     
+							<div class="emojiFrame"><span class="emoji">&#128535;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128536;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128537;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128538;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128539;</span></div>
+							<div class="emojiFrame"><span class="emoji">&#128546;</span></div>
+							</div>
 						</div>
-					  </div>
-					<div id="addFct">
-						<img alt="Appareil photo" src="img/camera.png">
-						<img id="smileBtn" alt="Smile" src="img/smile.png">
+						<div id="addFct">
+							<img alt="Appareil photo" src="img/camera.png">
+							<img id="smileBtn" alt="Smile" src="img/smile.png">
+						</div>
+						<input id="m" autocomplete="off" placeholder="Envoie un message"></input>
+						<button id="sendBtn"><i class="material-icons">send</i></button>
 					</div>
-					<input id="m" autocomplete="off" placeholder="Envoie un message"></input>
-					<button id="sendBtn"><i class="material-icons">send</i></button>
 				</form>
 			</div>
 
