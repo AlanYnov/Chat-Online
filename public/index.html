@@ -1,13 +1,19 @@
 <!doctype html>
-<html>
+<html lang="fr">
 	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="Thomas et Alan">
+		<meta name="description" content="Notre chat personnel">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Socket.IO chat</title>
-		<link rel="stylesheet" href="/css/style.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	</head>
-	
+
 	<body>
 		<div id="mainCtn">
             <header id="headCtn">
@@ -16,30 +22,74 @@
                 </h1>
             </header>
             <div id="formCtn">
+				<div class="imageUser">
+					<img src="img/man.png" class="imageSelected" alt="image user"/>
+					<img src="img/dad.png" class="" alt="image user"/>
+					<img src="img/doctor.png" class="" alt="image user"/>
+				</div>
 				<div class="inputCtn">
 					<label for="username">Nom d'utilisateur</label>
-					<input type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
+					<input maxlength="16" type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
 				</div>
 				<input type="button" value="Entrer dans le salon" class="btn" onclick="login(document.getElementById('username').value)"/>
             </div>
         </div>
-		
 		<div id="global">
-			<div id="conversation">
-				<div id="imageUser"><img src="img/man.png" alt="image man"/></div>
-				<div id="user"></div>
+			<div id="userCtn">
+				<div id="imageUser">
+					<img src="img/man.png" id="imgUser" alt="image man"/>
+					<div id="user"></div>
+				</div>
+				<input class="search" type="text" placeholder="Recherche..">
 				<div id="membres"></div>
 			</div>
-		
-			<div id="messages"></div>
-			<form action="" id="formEnvoyer">
-				<div id="taper" class=""></div>
-				<input id="m" autocomplete="off" /><button>Envoyer</button>
-			</form>
+			<div id="msgCtn">
+				<div id="headMsg">
+					<div id="headImg">
+						<img id ="imageSalon" alt="Salon-user icone" src="img/chat.png">
+						<h1 id="convName">Général</h1>
+					</div>
+					<div id="iconCtn">
+						<img id="notification" class="active" alt="Cloche notification" src="img/bell1.png">
+						<i style="font-size:2.5vw" class="material-icons">power_settings_new</i>
+					</div>
+				</div>
+				<div class="trait"></div>
+				<div id="messages"></div>
+				<form action="" id="formEnvoyer">
+					<div class="trait"></div>
+					<div class="formCtn">
+						<div class="emojiPicker hideEmoji">
+							<div class="emojis">
+								<div class="emoOne"></div>
+								<div class="emoTwo"></div>
+								<div class="emoThree"></div>
+								<div class="emoFour"></div>
+								<div class="emoFive"></div>
+								<div class="trait"></div>
+								<div class="emoCatCtn">
+									<div class="emojiCategory categoryOne"><span class="emojiCat"><i class='far fa-smile catico'></i></span></div>     
+									<div class="emojiCategory categoryTwo"><span class="emojiCat"><i class='fas fa-cat catico'></i></span></div>
+									<div class="emojiCategory categoryThree"><span class="emojiCat"><i class='fas fa-basketball-ball catico'></i></span></div>
+									<div class="emojiCategory categoryFour"><span class="emojiCat"><i class='fas fa-hamburger catico'></i></span></div>
+									<div class="emojiCategory categoryFive"><span class="emojiCat"><i class='fas fa-sun catico'></i></span></div>
+								</div>
+							</div>
+						</div>
+						<div id="addFct">
+							<img alt="Appareil photo" src="img/camera.png">
+							<img id="smileBtn" alt="Smile" src="img/smile.png">
+						</div>
+						<input id="m" autocomplete="off" placeholder="Envoie un message"></input>
+						<button id="sendBtn"><i class="material-icons">send</i></button>
+					</div>
+				</form>
+			</div>
 		</div>
 		<input type="hidden" value="" id="userHidden"/>
 		<input type="hidden" value="" id="idHidden"/>
 		
 	<script src="js/client.js"></script>
+	<script src="js/main.js"></script>
 	</body>
 </html>

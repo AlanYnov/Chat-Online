@@ -10,33 +10,34 @@ app.use(express.static('public')); //on utilise le dossier public
 
 const userList = [];
 const msgEnvoiGeneral = [];
-const msgEnvoiPrivate = [];
+const msgEnvoiPrivate = [{id: 'test',message: 'test',expediteur: 'test',destinataire: 'test'},{id: 'test',message: 'test',expediteur: 'test',destinataire: 'test'}]; //laisser les 2 msg
 const returnGeneral = [];
 
 io.on('connection', function(socket){ //nouvelle connexion
 	console.log('Nouvelle connexion');
   
-	socket.on('chat message', function(msg) { //lorsqu'on envoit un message
+	socket.on('chat message', function(msg, date) { //lorsqu'on envoit un message
 		let userName = '';
 		let msgEnvoi = '';
 		for(let i = 0; i < userList.length; i++){
 			if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 				userName = userList[i].user;
-				msgEnvoi = {id:socket.id,message:msg,expediteur:userName};
+				img = userList[i].img;
+				msgEnvoi = {id:socket.id,message:msg,expediteur:userName,img:img,date:date};
 				msgEnvoiGeneral.push(msgEnvoi); //renvoit en Json les infos du message
 				if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
 					msgEnvoiGeneral.shift();
 				}
-				io.emit('chat message', msgEnvoi, msgEnvoiGeneral);
+				io.emit('chat message', msgEnvoi, msgEnvoiGeneral, userList);
 			}
 		}
 		//console.log(msgEnvoiGeneral);
 	});
   
-	socket.on('user', (user) => { //ajout d'un nouvelle utilisateur
+	socket.on('user', function(user, img) { //ajout d'un nouvel utilisateur
 		let connexion = '';
 		if(!userList.find(user => user.id === socket.id)){
-			userList.push({id:socket.id,user:user});
+			userList.push({id:socket.id,user:user,img:img,notif:true});
 			for(let i = 0; i < userList.length; i++){
 				if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 					userName = userList[i].user;
@@ -45,33 +46,33 @@ io.on('connection', function(socket){ //nouvelle connexion
 					if(msgEnvoiGeneral.length > 20){ //si il a plus de 20 messages dans le chat général
 						msgEnvoiGeneral.shift();
 					}
-					//io.emit('is connected', connexion);
 				}
 			}
 		}
-		console.log(userList);
-		io.emit('new user', userList);
+		//console.log(userList);
+		io.emit('list', userList);
 		io.emit('co affiche', connexion);
 	});
   
-	socket.on('private message', function(message,idPrivate) { //pour envoyer un message privé
+	socket.on('private message', function(message,idPrivate, date) { //pour envoyer un message privé
 		let userName = '';
 		for(let i = 0; i < userList.length; i++){
 			if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
 				userName = userList[i].user;
-				msgEnvoiPrivate.push({id:socket.id,message:message,expediteur:userName,destinataire:idPrivate}); //renvoit en Json les infos du message
-				io.emit('private message', msgEnvoiPrivate);
+				img = userList[i].img;
+				msgEnvoiPrivate.push({id:socket.id,message:message,expediteur:userName,destinataire:idPrivate,img:img,date:date}); //renvoit en Json les infos du message
+				io.emit('private message', msgEnvoiPrivate, userList);
 				//io.to(idPrivate).emit(msgEnvoiPrivate);
 			}
 		}
-		console.log(msgEnvoiPrivate);
+		//console.log(msgEnvoiPrivate);
 	});
 	
 	socket.on('enter private message', function(click) { //pour arriver sur une conv privée
 		if(click == true){
 			io.emit('enter private message', msgEnvoiPrivate); //on renvoit le tableau des messages privés
 		}
-		console.log(msgEnvoiPrivate);
+		//console.log(msgEnvoiPrivate);
 	});
 	
 	socket.on('typing', typing => { //pour renvoyer si le user tape ou non
@@ -101,9 +102,8 @@ io.on('connection', function(socket){ //nouvelle connexion
 			}
 		}
 		io.emit('deco affiche', deconnexion);
-		io.emit('deconnexion', userList); //on renvoit le nouveau tableau des users
-		console.log(userList);
-		console.log(deconnexion);
+		io.emit('list', userList); //on renvoit le nouveau tableau des users
+		//console.log(userList);
 	});
 	
 	socket.on('general', click => { //pour renvoyer les messages généraux
@@ -111,8 +111,23 @@ io.on('connection', function(socket){ //nouvelle connexion
 			returnGeneral.push({id:socket.id});
 			io.emit('general', msgEnvoiGeneral, returnGeneral); //on renvoit le tableau des messages general
 		}
-		console.log(msgEnvoiGeneral);
-		console.log(returnGeneral);
+	});
+	
+	socket.on('notifications', click => { //changer l'etat des notifications (on/off)
+		if(click == true){
+			for(let i = 0; i < userList.length; i++){
+				if(userList[i].id == socket.id){
+					let notif = userList[i].notif;
+					if(notif == true){
+						userList[i].notif = false;
+					}
+					else{
+						userList[i].notif = true;
+					}
+				}
+			}
+		}
+		//console.log(userList);
 	});
 });
 
