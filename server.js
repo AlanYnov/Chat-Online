@@ -31,7 +31,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 				io.emit('chat message', msgEnvoi, msgEnvoiGeneral, userList);
 			}
 		}
-		//console.log(msgEnvoiGeneral);
+		console.log(msgEnvoiGeneral);
 	});
   
 	socket.on('user', function(user, img) { //ajout d'un nouvel utilisateur
