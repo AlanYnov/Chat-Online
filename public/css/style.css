@@ -161,6 +161,16 @@ textarea{
   cursor: pointer;
  }
 
+ #addFct label{
+   width: 40%;
+   padding: 0;
+   margin: 0;
+ }
+
+ #addFct label img{
+   width: 100%;
+ }
+
 #m{
   width: 75%;
   background-color: #cecece59;
@@ -327,6 +337,7 @@ textarea{
   border-radius: 50px;
   border: 1px solid #575756;
   transition: all 0.25s ease-in-out;
+  margin-bottom: 1rem;
 }
 
 .search::placeholder{
@@ -608,4 +619,10 @@ textarea{
   flex-flow: row nowrap;
   font-size: .7vw;
   font-style: italic;
+}
+
+
+
+#imageDl{
+  display: none;
 }
