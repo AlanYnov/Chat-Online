@@ -124,6 +124,26 @@ $('#notification').click(function(){ //afficher/masquer les notifications
     }
 });
 
+$( "#rechercher" ).keyup(function(){ //quand le user tape sa recherche
+	$("#membres").children().each(function(key, ele){ //on enlève tous les display en cas de retour arrière du user
+		$(ele).css('display','flex');
+	});
+	
+	texteRecup = $('#rechercher').val();
+	tailleTexte = texteRecup.length;
+	$("#membres").children().each(function(key, ele){ //pour chaque élément de la liste
+		let texte = $(ele).text();
+		for(let i = 0; i < tailleTexte; i++){
+			if(texte[i] == texteRecup[i]){ //si les lettres sont les mêmes
+				//rien
+			}
+			else{ //sinon on display none
+				$(ele).css('display','none');
+			}
+		}
+	});
+});
+
 socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le message et qu'on souhaite l'afficher
 	let notif = true;
 	for(let i = 0; i < user.length; i++){
@@ -298,6 +318,10 @@ socket.on('private message', function(tableau, user){ //afficher les messages pr
 });
 
 socket.on('enter private message', function(tableau){ //afficher les messages privés des conv
+	$('#rechercher').val('');
+	$("#membres").children().each(function(key, ele){ //on display toute la liste en cas de recherche
+		$(ele).css('display','flex');
+	});
 	if(!$('#general').hasClass('selected')){ //si on n'est pas dans le chat général
 		let messageForm = '';
 		$('#messages').empty();

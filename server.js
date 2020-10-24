@@ -10,7 +10,7 @@ app.use(express.static('public')); //on utilise le dossier public
 
 const userList = [];
 const msgEnvoiGeneral = [];
-const msgEnvoiPrivate = [{id: 'test',message: 'test',expediteur: 'test',destinataire: 'test'},{id: 'test',message: 'test',expediteur: 'test',destinataire: 'test'}]; //laisser les 2 msg
+const msgEnvoiPrivate = [{id:'test',message:'test',expediteur:'test',destinataire:'test'},{id:'test',message:'test',expediteur:'test',destinataire:'test'}]; //laisser les 2 msg
 const returnGeneral = [];
 
 io.on('connection', function(socket){ //nouvelle connexion
