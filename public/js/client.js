@@ -25,7 +25,7 @@ $('.imageUser').children().click(function(){
 	$('.imageUser').children().removeClass('imageSelected');
 	$(this).addClass('imageSelected');
 	img = $(this).attr('src');
-	$('#imgUser').attr('src',img);
+	$('.imgUser').attr('src',img);
 });
 
 function login(e){ //login du user, on envoit son nom au serveur
@@ -93,10 +93,10 @@ function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut
 
 socket.on('list', userList => { //générer nouvelle liste users (connexion, déconnexion)
 	$('#membres').empty(); //on la vide
-	$('#membres').append('<div id="general" class="userFrame selected" onclick="generalClick(this.id);"><img src="../img/g.png" id="imgUser" alt="salon general">Salon Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
+	$('#membres').append('<div id="general" class="generalFrame selected" onclick="generalClick(this.id);"><img src="../img/g.png" class="imgGeneral" alt="salon general">Salon Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	
 	for(let i = 0 ; i < userList.length; i++){ //boucle pour afficher les users connectés
-		$('#membres').append('<div class="userFrame" id="'+userList[i].id+'" onclick="privateMsg(this.id);"><div class="profilCtn"><img src="'+ userList[i].img +'" id="imgUser" alt="image man">'+userList[i].user+'</div><img src="../img/notification.png" class="notif none" alt="notif"></div>');
+		$('#membres').append('<div class="userFrame" id="'+userList[i].id+'" onclick="privateMsg(this.id);"><div class="profilCtn"><img src="'+ userList[i].img +'" class="imgUser" alt="image man">'+userList[i].user+'</div><img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	}
 });
 
