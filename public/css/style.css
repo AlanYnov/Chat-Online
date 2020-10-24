@@ -129,8 +129,7 @@ textarea{
 }
 
 #formEnvoyer{
-  width: 75%;
-  position: fixed;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -590,10 +589,23 @@ textarea{
 
 .ldateCtn{
   padding-top: .5rem;
-  margin-left: 8%;
+  margin-left: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
 }
 
 .rdateCtn{
   padding-top: .5rem;
-  margin-left: 89%;
+  margin-left: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  flex-direction: row-reverse;
+}
+
+.dateFrame{
+  padding-top: .5rem;
+  display: flex;
+  flex-flow: row nowrap;
+  font-size: .7vw;
+  font-style: italic;
 }

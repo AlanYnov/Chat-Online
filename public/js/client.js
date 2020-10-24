@@ -100,7 +100,7 @@ socket.on('list', userList => { //générer nouvelle liste users (connexion, dé
 	}
 });
 
-$('.material-icons').click(function(){ //action de déconnexion
+$('.power').click(function(){ //action de déconnexion
 	decoClick();
 })
 
@@ -144,10 +144,10 @@ socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le m
 			class3 = 'userRight';
 			if(msg.id == tableau[tableau.length - 2].id){
 				messageForm = "<br/>" + msg.message;
-				$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+				$(".rightMsg:last-child .msgMsg > .contentMsg").append(messageForm);
 			}
 			else{
-				messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+msg.img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ msg.expediteur +"</span></div><span class='contentMsg lMsg'>"+ msg.message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + msg.date + "</span></div>";
+				messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+msg.img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ msg.expediteur +"</span></div><span class='contentMsg lMsg'>"+ msg.message +"</span><span class='dateFrame'>" + msg.date + "</span></div>";
 				$('#messages').append(messageForm);
 			}
 		}
@@ -157,10 +157,10 @@ socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le m
 			class3 = 'userLeft';
 			if(msg.id == tableau[tableau.length - 2].id){
 				messageForm = "<br/>" + msg.message;
-				$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+				$(".leftMsg:last-child .msgMsg > .contentMsg").append(messageForm);
 			}
 			else{
-				messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+msg.img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ msg.expediteur +"</span></div><span class='contentMsg rMsg'>"+ msg.message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + msg.date + "</span></div>";
+				messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+msg.img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ msg.expediteur +"</span></div><span class='contentMsg rMsg'>"+ msg.message +"</span><span class='dateFrame'>" + msg.date + "</span></div>";
 				$('#messages').append(messageForm);
 			}
 		}
@@ -191,10 +191,10 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 				if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$(".rightMsg:last-child .msgMsg > .contentMsg").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span><span class='dateFrame'>" + tableau[i].date + "</span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -205,10 +205,10 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 				else{ //sinon
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$(".leftMsg:last-child .msgMsg > .contentMsg").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span><span class='dateFrame'>" + tableau[i].date + "</span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -274,20 +274,20 @@ socket.on('private message', function(tableau, user){ //afficher les messages pr
 				if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$(".rightMsg:last-child .msgMsg > .contentMsg").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span><span class='dateFrame'>" + tableau[i].date + "</span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
 				else{ //sinon
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$(".leftMsg:last-child .msgMsg > .contentMsg").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span><span class='dateFrame'>" + tableau[i].date + "</span></div>";
 						$('#messages').append(messageForm);
 					}				
 				}
@@ -307,20 +307,20 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 				if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$(".rightMsg:last-child .msgMsg > .contentMsg").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span><span class='dateFrame'>" + tableau[i].date + "</span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
 				else{ //sinon
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$(".leftMsg:last-child .msgMsg > .contentMsg").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span><span class='dateFrame'>" + tableau[i].date + "</span></div>";
 						$('#messages').append(messageForm);
 					}				
 				}
