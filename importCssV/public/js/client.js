@@ -131,7 +131,7 @@ socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message
 				$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 			}
 			else{
-				messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+msg.img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ msg.expediteur +"</span></div><span class='contentMsg lMsg'>"+ msg.message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + msg.date + "</span></div>";
+				messageForm = "<div class='containMessage'><img src="+ msg.img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='heure'>" + msg.date + "</span><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span></span></div>";
 				$('#messages').append(messageForm);
 			}
 		}
@@ -144,7 +144,7 @@ socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message
 				$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 			}
 			else{
-				messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+msg.img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ msg.expediteur +"</span></div><span class='contentMsg rMsg'>"+ msg.message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + msg.date + "</span></div>";
+				messageForm = "<div class='containMessage'><img src="+ msg.img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span><span class='heure'>" + msg.date + "</span></span></div>";
 				$('#messages').append(messageForm);
 			}
 		}
@@ -184,7 +184,7 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -201,7 +201,7 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -270,7 +270,7 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -283,7 +283,7 @@ socket.on('private message', function(tableau){ //afficher les messages privés 
 						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}				
 				}
@@ -312,7 +312,7 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -325,7 +325,7 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}				
 				}
