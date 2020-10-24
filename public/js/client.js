@@ -74,7 +74,7 @@ $('#formEnvoyer').submit(function(){ //au submit du message
 
 function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut avoir une conv privée
 	if(!$('#'+id).find('img').hasClass('none')){ //on enlève la notif si elle existe
-		$('#'+id).find('img').addClass('none');
+		$('#'+id+' .notif').addClass('none');
 	}
 	//on supprime les class
 	$('#general').removeClass('selected');
@@ -191,21 +191,18 @@ socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le m
 
 socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se chargent quand il revient sur le chat général
 	if($('#general').hasClass('selected')){ //supprime notif
-		$('#general').find('img').addClass('none');
+		$('#general .notif').addClass('none');
 	}
-	//construction de la date
 	if($('#general').hasClass('selected')){ //si on est placé dans le canal général
 		let messageForm = '';
-		
 		let taille = tableau.length;
 		let taille2 = tableau2.length;
 		
 		if((tableau[taille - 1].connected != socket.id && tableau2[taille2 - 1].id != socket.id)){ //si le user vient de se conneter ou aller dans le canal général ou les deux
-			//console.log('pas moi');
+			//rien
 		}
 		else{	
 			$('#messages').empty();
-			
 			//définir les classes en fonction du user qui les envoit
 			for(let i = 0; i < tableau.length; i++){
 				if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
