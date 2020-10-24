@@ -52,10 +52,6 @@ textarea{
   width: 35%;
 }
 
-#general{
-  padding-right: 2rem;;
-}
-
 .userFrame img {
   width: 10%;
 }
@@ -116,7 +112,6 @@ textarea{
 }
 
 #messages{
-  min-height: 75vh;
   overflow: auto;
   padding: 2rem;
 }
@@ -129,8 +124,7 @@ textarea{
 }
 
 #formEnvoyer{
-  width: 75%;
-  position: fixed;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -443,7 +437,7 @@ textarea{
 
 #membres {
   width: 100%;
-  overflow:auto;
+  overflow: y;
 }
 
 #membres .userFrame {
@@ -522,7 +516,6 @@ textarea{
   background-color:  #bbd2e183;
   cursor: pointer;
 }
-
 /***MESSAGE***/
 
 .rightMsg{

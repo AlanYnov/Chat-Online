@@ -48,6 +48,8 @@ $('#smileBtn').click(function(event){
     $('.emoThree').css('display', 'none');
     $('.emoFour').css('display', 'none');
     $('.emoFive').css('display', 'none');
+    $('.catico').css('color', 'black');
+    $('.categoryOne .emojiCat .catico').css('color', '#318ce7');
     if($('.hideEmoji')[0]){
         $('.emojiPicker').css('display', 'flex');
         $('.emojiPicker').removeClass('hideEmoji');

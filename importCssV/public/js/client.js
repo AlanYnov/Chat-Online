@@ -72,7 +72,7 @@ $('#formEnvoyer').submit(function(){ //au submit du message
 	return false;
 });
 
-function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut avoir une conv privée
+function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut avoir une conv privée 
 	if(!$('#'+id).find('img').hasClass('none')){ //on enlève la notif si elle existe
 		$('#'+id).find('img').addClass('none');
 	}
@@ -93,14 +93,14 @@ function privateMsg(id){ //lorsqu'on click sur le nom d'un user avec qui on veut
 
 socket.on('list', userList => { //générer nouvelle liste users (connexion, déconnexion)
 	$('#membres').empty(); //on la vide
-	$('#membres').append('<div id="general" class="userFrame selected" onclick="generalClick(this.id);"><img src="../img/g.png" id="imgUser" alt="salon general">Salon Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
+	$('#membres').append('<div id="general" class="selected" onclick="generalClick(this.id);">Général<img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	
 	for(let i = 0 ; i < userList.length; i++){ //boucle pour afficher les users connectés
 		$('#membres').append('<div class="userFrame" id="'+userList[i].id+'" onclick="privateMsg(this.id);"><div class="profilCtn"><img src="'+ userList[i].img +'" id="imgUser" alt="image man">'+userList[i].user+'</div><img src="../img/notification.png" class="notif none" alt="notif"></div>');
 	}
 });
 
-$('.material-icons').click(function(){ //action de déconnexion
+$('.material-icons').click(function(){
 	decoClick();
 })
 
@@ -111,50 +111,14 @@ function decoClick(){ //pour déconnecter le user en question
 	$('#global').css('display', 'none');
 };
 
-$('#notification').click(function(){ //afficher/masquer les notifications
-	let click = true;
-	socket.emit('notifications', click);
-    if($('.active')[0]){
-        $('#notification').attr('src', 'img/bell.png');
-        $('#notification').removeClass('active');
-		
-    } else{
-        $('#notification').attr('src', 'img/bell1.png');
-        $('#notification').addClass('active');
-    }
-});
-
-$( "#rechercher" ).keyup(function(){ //quand le user tape sa recherche
-	$("#membres").children().each(function(key, ele){ //on enlève tous les display en cas de retour arrière du user
-		$(ele).css('display','flex');
-	});
-	
-	texteRecup = $('#rechercher').val();
-	tailleTexte = texteRecup.length;
-	$("#membres").children().each(function(key, ele){ //pour chaque élément de la liste
-		let texte = $(ele).text();
-		for(let i = 0; i < tailleTexte; i++){
-			if(texte[i] == texteRecup[i]){ //si les lettres sont les mêmes
-				//rien
-			}
-			else{ //sinon on display none
-				$(ele).css('display','none');
-			}
-		}
-	});
-});
-
-socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le message et qu'on souhaite l'afficher
-	let notif = true;
-	for(let i = 0; i < user.length; i++){
-		if(user[i].id == socket.id){
-			notif = user[i].notif;
-		}
-	}
-	if(!$('#general').hasClass('selected') && notif == true){ //ajoute la notif
+socket.on('chat message', function(msg, tableau){ //lorsqu'on reçoit le message et qu'on souhaite l'afficher
+	if(!$('#general').hasClass('selected')){ //ajoute la notif
 		$('#general').find('img').removeClass('none');
 	}
 	if($('#general').hasClass('selected')){ //si on est placé dans le canal général
+		let class1 = '';
+		let class2 = '';
+		let class3 = '';
 		let messageForm = '';
 		
 		//définir les classes en fonction du user qui les envoit
@@ -164,10 +128,10 @@ socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le m
 			class3 = 'userRight';
 			if(msg.id == tableau[tableau.length - 2].id){
 				messageForm = "<br/>" + msg.message;
-				$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+				$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 			}
 			else{
-				messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+msg.img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ msg.expediteur +"</span></div><span class='contentMsg lMsg'>"+ msg.message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + msg.date + "</span></div>";
+				messageForm = "<div class='containMessage'><img src="+ msg.img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='heure'>" + msg.date + "</span><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span></span></div>";
 				$('#messages').append(messageForm);
 			}
 		}
@@ -177,10 +141,10 @@ socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le m
 			class3 = 'userLeft';
 			if(msg.id == tableau[tableau.length - 2].id){
 				messageForm = "<br/>" + msg.message;
-				$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+				$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 			}
 			else{
-				messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+msg.img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ msg.expediteur +"</span></div><span class='contentMsg rMsg'>"+ msg.message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + msg.date + "</span></div>";
+				messageForm = "<div class='containMessage'><img src="+ msg.img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ msg.expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ msg.message +"</span><span class='heure'>" + msg.date + "</span></span></div>";
 				$('#messages').append(messageForm);
 			}
 		}
@@ -195,6 +159,9 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 	}
 	//construction de la date
 	if($('#general').hasClass('selected')){ //si on est placé dans le canal général
+		let class1 = '';
+		let class2 = '';
+		let class3 = '';
 		let messageForm = '';
 		
 		let taille = tableau.length;
@@ -209,12 +176,15 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 			//définir les classes en fonction du user qui les envoit
 			for(let i = 0; i < tableau.length; i++){
 				if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
+					class1 = 'messageDetailRight';
+					class2 = 'messageRight';
+					class3 = 'userRight';
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -223,12 +193,15 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 					$('#messages').append(messageForm);
 				}
 				else{ //sinon
+					class1 = 'messageDetailLeft';
+					class2 = 'messageLeft';
+					class3 = 'userLeft';
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
@@ -272,42 +245,45 @@ socket.on('display', (barre) => { //on change le texte si le user tape ou non
 	}
 });
 
-socket.on('private message', function(tableau, user){ //afficher les messages privés des conv
-	let notif = true;
-	for(let i = 0; i < user.length; i++){
-		if(user[i].id == socket.id){
-			notif = user[i].notif;
-		}
-	}
+socket.on('private message', function(tableau){ //afficher les messages privés des conv
 	let dernierMsg = tableau[tableau.length - 1].id; //le dernier user qui a envoyé un message privé
 	let destinataire = tableau[tableau.length - 1].destinataire;
-	if(!$('#'+dernierMsg).hasClass('selected') && dernierMsg != socket.id && destinataire == socket.id && notif == true){ //si on reçoit un message afficher une notif
+	if(!$('#'+dernierMsg).hasClass('selected') && dernierMsg != socket.id && destinataire == socket.id){ //si on reçoit un message afficher une notif
 		$('#'+dernierMsg).find('img').removeClass('none');
 	}
 	
 	if(!$('#general').hasClass('selected')){ //si on n'est pas dans le chat général
 		$('#messages').empty();
+		let class1 = '';
+		let class2 = '';
+		let class3 = '';
 		let messageForm = '';
 		
 		for(let i = 0; i < tableau.length; i++){
 			if((tableau[i].id == privateUser && tableau[i].destinataire == socket.id) || (tableau[i].id == socket.id && tableau[i].destinataire == privateUser)){ //si on est sur une conv privée en affiche les msg
 				if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
+					class1 = 'messageDetailRight';
+					class2 = 'messageRight';
+					class3 = 'userRight';
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
 				else{ //sinon
+					class1 = 'messageDetailLeft';
+					class2 = 'messageLeft';
+					class3 = 'userLeft';
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}				
 				}
@@ -318,33 +294,38 @@ socket.on('private message', function(tableau, user){ //afficher les messages pr
 });
 
 socket.on('enter private message', function(tableau){ //afficher les messages privés des conv
-	$('#rechercher').val('');
-	$("#membres").children().each(function(key, ele){ //on display toute la liste en cas de recherche
-		$(ele).css('display','flex');
-	});
 	if(!$('#general').hasClass('selected')){ //si on n'est pas dans le chat général
+		let class1 = '';
+		let class2 = '';
+		let class3 = '';
 		let messageForm = '';
 		$('#messages').empty();
 		
 		for(let i = 0; i < tableau.length; i++){
 			if((tableau[i].id == privateUser && tableau[i].destinataire == socket.id) || (tableau[i].id == socket.id && tableau[i].destinataire == privateUser)){ //si on est sur une conv privée en affiche les msg
 				if(tableau[i].id == socket.id){ //si le socket et l'expediteur ont le même id
+					class1 = 'messageDetailRight';
+					class2 = 'messageRight';
+					class3 = 'userRight';
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$("#messages .containMessage:last-child span:last-child span:last-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='rightMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg lMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg rdateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend right' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='heure'>" + tableau[i].date + "</span><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span></span></div>";
 						$('#messages').append(messageForm);
 					}
 				}
 				else{ //sinon
+					class1 = 'messageDetailLeft';
+					class2 = 'messageLeft';
+					class3 = 'userLeft';
 					if(tableau[i - 1].id == tableau[i].id){
 						messageForm = "<br/>" + tableau[i].message;
-						$("#messages .msgMsg:last-child > span:last-child").append(messageForm);
+						$("#messages .containMessage:last-child span:last-child span:first-child").append(messageForm);
 					}
 					else{
-						messageForm = "<div class='leftMsg'><div class='imgMsgCtn'><img src='"+tableau[i].img+"' alt='Image utilisateur' class='imgMsg'></div><div class='msgMsg'><div class='nameCtn'><span>"+ tableau[i].expediteur +"</span></div><span class='contentMsg rMsg'>"+ tableau[i].message +"</span></div></div><div class='dateMsg ldateCtn'><span>" + tableau[i].date + "</span></div>";
+						messageForm = "<div class='containMessage'><img src="+ tableau[i].img +" class='imgUserSend left' alt='image user'/><span class='user "+ class3 +"'>"+ tableau[i].expediteur +"</span><span class="+ class2 +"><span class='messageDetail "+ class1 +"'>"+ tableau[i].message +"</span><span class='heure'>" + tableau[i].date + "</span></span></div>";
 						$('#messages').append(messageForm);
 					}				
 				}
