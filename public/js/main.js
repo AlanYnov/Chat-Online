@@ -32,7 +32,7 @@ $(".emojiFrame").click(function(){
     let smile = $(this).text();
     myText = target.val() + smile
     target.val( myText );
-})
+});
 
 $("html, body").click(function(e) {
     if ($(e.target).hasClass('catico') || $(e.target).hasClass('emoCatCtn')) {
@@ -65,7 +65,7 @@ $('.categoryOne').click(function(){
     $('.emoThree').css('display', 'none');
     $('.emoFour').css('display', 'none');
     $('.emoFive').css('display', 'none');
-})
+});
 
 $('.categoryTwo').click(function(){
     $('.emoOne').css('display', 'none');
@@ -73,7 +73,7 @@ $('.categoryTwo').click(function(){
     $('.emoThree').css('display', 'none');
     $('.emoFour').css('display', 'none');
     $('.emoFive').css('display', 'none');
-})
+});
 
 $('.categoryThree').click(function(){
     $('.emoOne').css('display', 'none');
@@ -81,7 +81,7 @@ $('.categoryThree').click(function(){
     $('.emoThree').css('display', 'flex');
     $('.emoFour').css('display', 'none');
     $('.emoFive').css('display', 'none');
-})
+});
 
 $('.categoryFour').click(function(){
     $('.emoOne').css('display', 'none');
@@ -89,7 +89,7 @@ $('.categoryFour').click(function(){
     $('.emoThree').css('display', 'none');
     $('.emoFour').css('display', 'flex');
     $('.emoFive').css('display', 'none');
-})
+});
 
 $('.categoryFive').click(function(){
     $('.emoOne').css('display', 'none');
@@ -97,11 +97,11 @@ $('.categoryFive').click(function(){
     $('.emoThree').css('display', 'none');
     $('.emoFour').css('display', 'none');
     $('.emoFive').css('display', 'flex');
-})
+});
 
 $('.catico').click(function(){
     $('.catico').css('color', 'black');
     $(this).css('color', '#318ce7');
-})
+});
 
 $('.fa-smile').css('color', '#318ce7');
