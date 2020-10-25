@@ -184,7 +184,6 @@ socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le m
 				$('#messages').append(messageForm);
 			}
 		}
-		
 		window.scrollTo(0, document.body.scrollHeight);
 	}
 });
