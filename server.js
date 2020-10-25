@@ -128,6 +128,8 @@ io.on('connection', function(socket){ //nouvelle connexion
 			}
 		}
 		io.emit('list', userList);
+		returnGeneral.push({id:socket.id});
+		io.emit('general', msgEnvoiGeneral, returnGeneral);
 		//console.log(userList);
 	});
 });
