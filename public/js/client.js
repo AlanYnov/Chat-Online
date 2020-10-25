@@ -189,8 +189,12 @@ socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le m
 				$('#messages').append(messageForm);
 			}
 		}
+<<<<<<< HEAD
 		var elem = document.getElementById('messages');
 		elem.scrollTop = elem.scrollHeight;
+=======
+		window.scrollTo(0, document.body.scrollHeight);
+>>>>>>> f8180b810ccc1eb7926ee7a1d0ed5e48faeccab8
 	}
 });
 
