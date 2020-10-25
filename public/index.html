@@ -15,29 +15,33 @@
 	</head>
 
 	<body>
-		<div id="mainCtn">
-            <header id="headCtn">
-                <h1 class="titleOne">
-                    <i class="fas fa-envelope-open-text"></i>Notre Chat
-                </h1>
-            </header>
-            <div id="formCtn">
-				<div class="imageUser">
-					<img src="img/man.png" class="imageSelected" alt="image user"/>
-					<img src="img/dad.png" class="" alt="image user"/>
-					<img src="img/doctor.png" class="" alt="image user"/>
+		<div id="popupCtn">
+			<div id="mainCtn">
+				<header id="headCtn">
+					<h1 class="titleOne">
+						<i class="fas fa-envelope-open-text"></i>Notre Chat
+					</h1>
+				</header>
+				<div id="formCtn">
+					<div class="imageUser">
+						<img src="img/superkitty.png" class="imageSelected" alt="image user"/>
+						<img src="img/astronaut.png" class="" alt="image user"/>
+						<img src="img/elvis.png" class="" alt="image user"/>
+						<img src="img/selfie.png" class="" alt="image user"/>
+						<img src="img/geek.png" class="" alt="image user"/>
+					</div>
+					<div class="inputCtn">
+						<label for="username">Nom d'utilisateur</label>
+						<input maxlength="16" type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
+					</div>
+					<input type="button" value="Entrer dans le salon" class="btn" onclick="login(document.getElementById('username').value)"/>
 				</div>
-				<div class="inputCtn">
-					<label for="username">Nom d'utilisateur</label>
-					<input maxlength="16" type="text" name="username" id="username" placeholder="Entrer votre pseudo"/>
-				</div>
-				<input type="button" value="Entrer dans le salon" class="btn" onclick="login(document.getElementById('username').value)"/>
-            </div>
-        </div>
+			</div>
+		</div>
 		<div id="global">
 			<div id="userCtn">
 				<div id="imageUser">
-					<img src="img/man.png" class="imgUser" alt="image man"/>
+					<img src="img/superkitty.png" class="imgUser" alt="image man"/>
 					<div id="user"></div>
 				</div>
 				<input id="rechercher" class="search" type="text" placeholder="Recherche..">
@@ -78,7 +82,7 @@
 						</div>
 						<div id="addFct">
 							<label for="imageDl"><img alt="Appareil photo" src="img/camera.png"></label>
-							<input id="imageDl" type="file">
+							<input id="imageDl" type="file" accept="image/png, image/jpeg, image/jpg">
 							<img id="smileBtn" alt="Smile" src="img/smile.png">
 						</div>
 						<input id="m" autocomplete="off" placeholder="Envoie un message"></input>

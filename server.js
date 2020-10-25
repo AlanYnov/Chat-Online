@@ -127,6 +127,7 @@ io.on('connection', function(socket){ //nouvelle connexion
 				}
 			}
 		}
+		io.emit('list', userList);
 		//console.log(userList);
 	});
 });
