@@ -189,12 +189,8 @@ socket.on('chat message', function(msg, tableau, user){ //lorsqu'on reçoit le m
 				$('#messages').append(messageForm);
 			}
 		}
-<<<<<<< HEAD
-		var elem = document.getElementById('messages');
+		let elem = document.getElementById('messages');
 		elem.scrollTop = elem.scrollHeight;
-=======
-		window.scrollTo(0, document.body.scrollHeight);
->>>>>>> f8180b810ccc1eb7926ee7a1d0ed5e48faeccab8
 	}
 });
 
@@ -239,7 +235,7 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 					}
 				}
 			}
-			var elem = document.getElementById('messages');
+			let elem = document.getElementById('messages');
 			elem.scrollTop = elem.scrollHeight;
 		}
 	}
@@ -320,7 +316,7 @@ socket.on('private message', function(tableau, user){ //afficher les messages pr
 				}
 			}
 		}
-		var elem = document.getElementById('messages');
+		let elem = document.getElementById('messages');
 		elem.scrollTop = elem.scrollHeight;
 	}
 });
@@ -358,7 +354,7 @@ socket.on('enter private message', function(tableau){ //afficher les messages pr
 				}
 			}
 		}
-		var elem = document.getElementById('messages');
+		let elem = document.getElementById('messages');
 		elem.scrollTop = elem.scrollHeight;
 	}
 });
