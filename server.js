@@ -75,20 +75,6 @@ io.on('connection', function(socket){ //nouvelle connexion
 		//console.log(msgEnvoiPrivate);
 	});
 	
-	socket.on('typing', typing => { //pour renvoyer si le user tape ou non
-		let userName = '';
-		for(let i = 0; i < userList.length; i++){
-			if((userList[i].id) == (socket.id)){ //on cherche le nom de l'expediteur dans notre tableau des users
-				userName = userList[i].user;
-			}
-		}
-		//on envoit le tableau au client
-		const barre = [];
-		barre.push({user:userName,typing:typing,id:socket.id});
-		io.emit('display', barre);
-		//console.log(barre);
-	});
-	
 	socket.on('deconnexion', userName => { //pour renvoyer si se déconnecte
 		let deconnexion = '';
 		for(let i = 0; i < userList.length; i++){
@@ -127,10 +113,8 @@ io.on('connection', function(socket){ //nouvelle connexion
 				}
 			}
 		}
-		io.emit('list', userList);
+		io.emit('change notif', socket.id);
 		returnGeneral.push({id:socket.id});
-		io.emit('general', msgEnvoiGeneral, returnGeneral);
-		//console.log(userList);
 	});
 });
 

@@ -61,7 +61,7 @@ function generalClick(id){ //quand on click sur le canal général
 
 $('#formEnvoyer').submit(function(){ //au submit du message
 	let variable = $('#m').val().trim(); //enlève les espaces dans le message
-	variable = variable.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	variable = variable.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/emit/g, "emit");
 	let date = dateNow(new Date); //recupère la date et heure d'envoi
 	if((variable != '') && ($('#general').hasClass('selected'))){ //teste si le message est vide et que l'on veut envoyer le message au général
 		socket.emit('chat message', variable, date);
@@ -127,6 +127,17 @@ $('#notification').click(function(){ //afficher/masquer les notifications
         $('#notification').attr('src', 'img/bell1.png');
         $('#notification').addClass('active');
     }
+});
+
+socket.on('change notif', function(id){ //pour changer la notif du mec
+	let recupImage = $('#'+id).find('.pointPoint').attr('src');
+	if(recupImage == 'img/green.png'){
+		//console.log('devient rouge');
+		$('#'+id).find('.pointPoint').attr('src','img/red.png');
+	} else {
+		//console.log('devient vert');
+		$('#'+id).find('.pointPoint').attr('src','img/green.png');
+	}
 });
 
 $( "#rechercher" ).keyup(function(){ //quand le user tape sa recherche
@@ -237,40 +248,6 @@ socket.on('general', function(tableau,tableau2){ //les 20 derniers msg se charge
 			}
 			let elem = document.getElementById('messages');
 			elem.scrollTop = elem.scrollHeight;
-		}
-	}
-});
-
-let typing = false;
-
-$(document).ready(function(){ //fonction pour écouter si le user tape un message
-	$('#m').keypress((e) => { //si le user est en train d'écrire dans la barre du message
-		if(e.which!=13){
-			typing = true;
-		}
-	});
-});
-
-function boucle(){ //renvoit si oui ou non une touche a été pressée
-	socket.emit('typing', typing);
-	if(typing == true){
-		//console.log('tapée');
-		typing = false;
-	}
-	setTimeout("boucle();", 2000); //à réduire si on veut plus de responsivité
-};
-boucle();
-
-socket.on('display', (barre) => { //on change le texte si le user tape ou non
-	if(barre[0].typing == true){
-		if(barre[0].id != socket.id){ //si le socket à le même id que le user qui tape on ne remplit pas typing
-			$('#taper').text(`${barre[0].user} is typing...`); //on affiche le user qui écrit
-			$('#taper').addClass(barre[0].id);
-		}
-	}
-	else{
-		if(barre[0].id == socket.id){ //si le socket à le même id que le user qui tape on ne remplit pas typing
-			$('#taper').text(''); //on affiche que le user ne tape plus
 		}
 	}
 });
